@@ -1,0 +1,19 @@
+.header-button {
+  padding: 14px 38px 12px 38px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.56);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 133%;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &:hover,
+  :focus {
+    background-color: var(--accent-color);
+    border: transparent;
+  }
+}
