@@ -19,7 +19,9 @@
     padding-right: 71px;
     padding-top: 41px;
   }
-
+  .gallery & {
+    padding: 60px 71px;
+  }
   .footer & {
     display: flex;
     justify-content: center;

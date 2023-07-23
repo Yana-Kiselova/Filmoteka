@@ -1,0 +1,26 @@
+{{#each this}}
+
+  <li class='gallery-item item'>
+    <div class='gallery-card-img'>
+      {{#if poster_path}}
+        <img
+          src='https://image.tmdb.org/t/p/w500{{poster_path}}'
+          alt='{{title}}'
+          data-action={{id}}
+          class='gallery-img'
+        />
+      {{else}}
+        <img
+          src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+          class='gallery-img'
+        />
+      {{/if}}
+
+    </div>
+    <div class='gallery-card-text'>
+      <h2 class='gallery-name'> {{title}}</h2>
+      <p class='gallery-text'> {{release_date}}</p>
+    </div>
+  </li>
+
+{{/each}}
