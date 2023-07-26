@@ -2064,7 +2064,166 @@ THE SOFTWARE.
 });
 
 ;
-},{}],"templates/film-card.hbs":[function(require,module,exports) {
+},{}],"templates/appenFilmMarkup.hbs":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _handlebars = _interopRequireDefault(require("handlebars/dist/handlebars.runtime"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const templateFunction = _handlebars.default.template({
+  "1": function (container, depth0, helpers, partials, data) {
+    var stack1,
+      helper,
+      alias1 = depth0 != null ? depth0 : container.nullContext || {},
+      alias2 = container.hooks.helperMissing,
+      alias3 = "function",
+      alias4 = container.escapeExpression,
+      lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined;
+      };
+    return "\r\n  <li class='gallery-item item'>\r\n    <div class='gallery-card-img'>\r\n" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "poster_path") : depth0, {
+      "name": "if",
+      "hash": {},
+      "fn": container.program(2, data, 0),
+      "inverse": container.program(4, data, 0),
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 6
+        },
+        "end": {
+          "line": 17,
+          "column": 13
+        }
+      }
+    })) != null ? stack1 : "") + "\r\n    </div>\r\n    <div class='gallery-card-text'>\r\n      <h2 class='gallery-name'> " + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "title",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 21,
+          "column": 32
+        },
+        "end": {
+          "line": 21,
+          "column": 41
+        }
+      }
+    }) : helper)) + "</h2>\r\n      <p class='gallery-text'> " + alias4((helper = (helper = lookupProperty(helpers, "release_date") || (depth0 != null ? lookupProperty(depth0, "release_date") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "release_date",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 22,
+          "column": 31
+        },
+        "end": {
+          "line": 22,
+          "column": 47
+        }
+      }
+    }) : helper)) + "</p>\r\n    </div>\r\n  </li>\r\n\r\n";
+  },
+  "2": function (container, depth0, helpers, partials, data) {
+    var helper,
+      alias1 = depth0 != null ? depth0 : container.nullContext || {},
+      alias2 = container.hooks.helperMissing,
+      alias3 = "function",
+      alias4 = container.escapeExpression,
+      lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined;
+      };
+    return "        <img\r\n          src='https://image.tmdb.org/t/p/w500" + alias4((helper = (helper = lookupProperty(helpers, "poster_path") || (depth0 != null ? lookupProperty(depth0, "poster_path") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "poster_path",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 7,
+          "column": 46
+        },
+        "end": {
+          "line": 7,
+          "column": 61
+        }
+      }
+    }) : helper)) + "'\r\n          alt='" + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "title",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 15
+        },
+        "end": {
+          "line": 8,
+          "column": 24
+        }
+      }
+    }) : helper)) + "'\r\n          data-action=" + alias4((helper = (helper = lookupProperty(helpers, "id") || (depth0 != null ? lookupProperty(depth0, "id") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "id",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 22
+        },
+        "end": {
+          "line": 9,
+          "column": 28
+        }
+      }
+    }) : helper)) + "\r\n          class='gallery-img'\r\n        />\r\n";
+  },
+  "4": function (container, depth0, helpers, partials, data) {
+    return "        <img\r\n          src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'\r\n          class='gallery-img'\r\n        />\r\n";
+  },
+  "compiler": [8, ">= 4.3.0"],
+  "main": function (container, depth0, helpers, partials, data) {
+    var stack1,
+      lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined;
+      };
+    return (stack1 = lookupProperty(helpers, "each").call(depth0 != null ? depth0 : container.nullContext || {}, depth0, {
+      "name": "each",
+      "hash": {},
+      "fn": container.program(1, data, 0),
+      "inverse": container.noop,
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 26,
+          "column": 9
+        }
+      }
+    })) != null ? stack1 : "";
+  },
+  "useData": true
+});
+var _default = templateFunction;
+exports.default = _default;
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"templates/modal.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2231,165 +2390,6 @@ const templateFunction = _handlebars.default.template({
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"templates/appenFilmMarkup.hbs":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _handlebars = _interopRequireDefault(require("handlebars/dist/handlebars.runtime"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const templateFunction = _handlebars.default.template({
-  "1": function (container, depth0, helpers, partials, data) {
-    var stack1,
-      helper,
-      alias1 = depth0 != null ? depth0 : container.nullContext || {},
-      alias2 = container.hooks.helperMissing,
-      alias3 = "function",
-      alias4 = container.escapeExpression,
-      lookupProperty = container.lookupProperty || function (parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined;
-      };
-    return "\r\n  <li class='gallery-item item'>\r\n    <div class='gallery-card-img'>\r\n" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "poster_path") : depth0, {
-      "name": "if",
-      "hash": {},
-      "fn": container.program(2, data, 0),
-      "inverse": container.program(4, data, 0),
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 6
-        },
-        "end": {
-          "line": 17,
-          "column": 13
-        }
-      }
-    })) != null ? stack1 : "") + "\r\n    </div>\r\n    <div class='gallery-card-text'>\r\n      <h2 class='gallery-name'> " + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "title",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 21,
-          "column": 32
-        },
-        "end": {
-          "line": 21,
-          "column": 41
-        }
-      }
-    }) : helper)) + "</h2>\r\n      <p class='gallery-text'> " + alias4((helper = (helper = lookupProperty(helpers, "release_date") || (depth0 != null ? lookupProperty(depth0, "release_date") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "release_date",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 22,
-          "column": 31
-        },
-        "end": {
-          "line": 22,
-          "column": 47
-        }
-      }
-    }) : helper)) + "</p>\r\n    </div>\r\n  </li>\r\n\r\n";
-  },
-  "2": function (container, depth0, helpers, partials, data) {
-    var helper,
-      alias1 = depth0 != null ? depth0 : container.nullContext || {},
-      alias2 = container.hooks.helperMissing,
-      alias3 = "function",
-      alias4 = container.escapeExpression,
-      lookupProperty = container.lookupProperty || function (parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined;
-      };
-    return "        <img\r\n          src='https://image.tmdb.org/t/p/w500" + alias4((helper = (helper = lookupProperty(helpers, "poster_path") || (depth0 != null ? lookupProperty(depth0, "poster_path") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "poster_path",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 7,
-          "column": 46
-        },
-        "end": {
-          "line": 7,
-          "column": 61
-        }
-      }
-    }) : helper)) + "'\r\n          alt='" + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "title",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 15
-        },
-        "end": {
-          "line": 8,
-          "column": 24
-        }
-      }
-    }) : helper)) + "'\r\n          data-action=" + alias4((helper = (helper = lookupProperty(helpers, "id") || (depth0 != null ? lookupProperty(depth0, "id") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "id",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 9,
-          "column": 22
-        },
-        "end": {
-          "line": 9,
-          "column": 28
-        }
-      }
-    }) : helper)) + "\r\n          class='gallery-img'\r\n        />\r\n";
-  },
-  "4": function (container, depth0, helpers, partials, data) {
-    return "        <img\r\n          src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'\r\n          class='gallery-img'\r\n        />\r\n";
-  },
-  "compiler": [8, ">= 4.3.0"],
-  "main": function (container, depth0, helpers, partials, data) {
-    var stack1,
-      lookupProperty = container.lookupProperty || function (parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-        return undefined;
-      };
-    return (stack1 = lookupProperty(helpers, "each").call(depth0 != null ? depth0 : container.nullContext || {}, depth0, {
-      "name": "each",
-      "hash": {},
-      "fn": container.program(1, data, 0),
-      "inverse": container.noop,
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 0
-        },
-        "end": {
-          "line": 26,
-          "column": 9
-        }
-      }
-    })) != null ? stack1 : "";
-  },
-  "useData": true
-});
-var _default = templateFunction;
-exports.default = _default;
 },{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/news-service.js":[function(require,module,exports) {
 "use strict";
 
@@ -2403,6 +2403,15 @@ class NewApiService {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
+  }
+  // ф-ция с ссылкой для рендера популярных фильмов при загрузке сайта////
+  fetchArticles() {
+    const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=b32f977d148061c9ab22a471ff2c7792&page=${this.page}`;
+    return fetch(url).then(response => response.json()).then(data => {
+      console.log(data);
+      this.incrementPage();
+      return data.results;
+    });
   }
   filmRequest() {
     const url = `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&page=${this.page}&include_adult=false&query=${this.searchQuery}`;
@@ -2427,21 +2436,29 @@ exports.default = NewApiService;
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
-var _filmCard = _interopRequireDefault(require("./templates/film-card.hbs"));
 var _appenFilmMarkup = _interopRequireDefault(require("./templates/appenFilmMarkup.hbs"));
+var _modal = _interopRequireDefault(require("./templates/modal.hbs"));
 var _newsService = _interopRequireDefault(require("./js/news-service"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const apiService = new _newsService.default();
+
+/////// рендер популярных фильмов //////
+function fetchTrending() {
+  apiService.fetchArticles().then(data => {
+    addListTemplates(data);
+  });
+}
+fetchTrending();
+//////////////////////////////////////////////
 //получаю доступ у элементам//
 const inputEl = document.querySelector('#header-input');
 const galeryEl = document.querySelector('.gallery-list');
-// coздаю новый класс//
-const apiService = new _newsService.default();
-apiService.filmRequest();
 inputEl.addEventListener('input', (0, _lodash.default)(filmName, 1000));
 //если инпут пустая строка =>галерея пустая и выходим
 function filmName(e) {
   if (e.target.value.trim() === '') {
     galeryEl.innerHTML = '';
+    fetchTrending();
     return;
   }
   //если длина массива =0 =>алерт и выход
@@ -2450,6 +2467,7 @@ function filmName(e) {
     if (data.length === 0) {
       return alert('проверте правильность ввода');
     }
+    galeryEl.innerHTML = '';
     addListTemplates(data);
   });
 }
@@ -2458,16 +2476,32 @@ function addListTemplates(results) {
   console.log(results, galeryEl);
   galeryEl.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
 }
-// рендер 1й карточки//
-const galleryItem = document.querySelector('.gallery-item');
 
-// galleryItem.addEventListener('clic', onModalTeamOpen);
-// Модальное окно для полноразмерного изображения
-// Для того чтобы открыть, необходимо добавить на gallery-item CSS-класс is-open
-// function onModalTeamOpen() {
-//   sectionEl.insertAdjacentHTML('beforeend', templatesCard(results));
-// }
-},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./templates/film-card.hbs":"templates/film-card.hbs","./templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","./js/news-service":"js/news-service.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+///////////////////////////modal////////////////////////////
+const refs = {
+  galleryList: document.querySelector('.gallery-list'),
+  galleryItem: document.querySelector('.gallery-item'),
+  backdrop: document.querySelector('.backdrop'),
+  buttonModalClose: document.querySelector('.modal-close')
+};
+refs.galleryList.addEventListener('click', evt => {
+  openModalFilm(evt);
+});
+
+/////// открыть модолку при клике на img вешаем класс is-open/////
+function openModalFilm(evt) {
+  if (!evt.target.nodeName === 'IMG') {
+    return;
+  }
+  refs.backdrop.classList.add('is-open');
+}
+console.log(refs.buttonModalClose);
+refs.buttonModalClose.addEventListener('click', closeModalFilm);
+function closeModalFilm(evt) {
+  console.log(evt);
+  refs.backdrop.classList.remove('is-open');
+}
+},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","./templates/modal.hbs":"templates/modal.hbs","./js/news-service":"js/news-service.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2492,7 +2526,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58650" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53182" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
