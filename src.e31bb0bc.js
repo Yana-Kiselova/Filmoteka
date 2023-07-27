@@ -2173,18 +2173,18 @@ const templateFunction = _handlebars.default.template({
           "column": 24
         }
       }
-    }) : helper)) + "'\r\n          data-action=" + alias4((helper = (helper = lookupProperty(helpers, "id") || (depth0 != null ? lookupProperty(depth0, "id") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "'\r\n          data-movie-id=" + alias4((helper = (helper = lookupProperty(helpers, "id") || (depth0 != null ? lookupProperty(depth0, "id") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "id",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
           "line": 9,
-          "column": 22
+          "column": 24
         },
         "end": {
           "line": 9,
-          "column": 28
+          "column": 30
         }
       }
     }) : helper)) + "\r\n          class='gallery-img'\r\n        />\r\n";
@@ -2245,146 +2245,154 @@ const templateFunction = _handlebars.default.template({
         }
         return undefined;
       };
-    return "  <div class='card'>\r\n\r\n    <div class='card-content'>\r\n      <h1 class='card-name'> " + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "title",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 5,
-          "column": 29
-        },
-        "end": {
-          "line": 5,
-          "column": 38
-        }
-      }
-    }) : helper)) + "</h1>\r\n      <p class='card-text'>Vote / Votes " + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "vote_average",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 40
-        },
-        "end": {
-          "line": 6,
-          "column": 56
-        }
-      }
-    }) : helper)) + "</p>\r\n      <p class='card-text'>Popularity " + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "popularity",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 7,
-          "column": 38
-        },
-        "end": {
-          "line": 7,
-          "column": 52
-        }
-      }
-    }) : helper)) + "</p>\r\n      <p class='card-text'>Original Title " + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "original_title",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 42
-        },
-        "end": {
-          "line": 8,
-          "column": 60
-        }
-      }
-    }) : helper)) + "</p>\r\n      <p class='card-text'>Genre " + alias4((helper = (helper = lookupProperty(helpers, "genre_ids") || (depth0 != null ? lookupProperty(depth0, "genre_ids") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "genre_ids",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 9,
-          "column": 33
-        },
-        "end": {
-          "line": 9,
-          "column": 46
-        }
-      }
-    }) : helper)) + "</p>\r\n      <p class='card-about'>About " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "overview",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 10,
-          "column": 34
-        },
-        "end": {
-          "line": 10,
-          "column": 46
-        }
-      }
-    }) : helper)) + "</p>\r\n    </div>\r\n\r\n    <div class='card-img'>\r\n      <img src='" + alias4((helper = (helper = lookupProperty(helpers, "poster_path") || (depth0 != null ? lookupProperty(depth0, "poster_path") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    return "      <img\r\n        class='modal-img'\r\n        style='max-width: 100%;'\r\n        src='https://image.tmdb.org/t/p/w500/" + alias4((helper = (helper = lookupProperty(helpers, "poster_path") || (depth0 != null ? lookupProperty(depth0, "poster_path") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "poster_path",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 14,
-          "column": 16
+          "line": 7,
+          "column": 45
         },
         "end": {
-          "line": 14,
-          "column": 31
+          "line": 7,
+          "column": 60
         }
       }
-    }) : helper)) + "' alt='" + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "'\r\n        alt='" + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "title",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 14,
-          "column": 38
+          "line": 8,
+          "column": 13
         },
         "end": {
-          "line": 14,
-          "column": 47
+          "line": 8,
+          "column": 22
         }
       }
-    }) : helper)) + "' />\r\n    </div>\r\n  </div>\r\n  <button class='button'>add to Watched</button>\r\n  <button class='button'>add to queue</button>\r\n";
+    }) : helper)) + "'\r\n      />\r\n";
+  },
+  "3": function (container, depth0, helpers, partials, data) {
+    return "      <img\r\n        src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'\r\n        class='modal-img'\r\n      />\r\n";
   },
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
     var stack1,
+      helper,
+      alias1 = depth0 != null ? depth0 : container.nullContext || {},
+      alias2 = container.hooks.helperMissing,
+      alias3 = "function",
+      alias4 = container.escapeExpression,
       lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
         }
         return undefined;
       };
-    return (stack1 = lookupProperty(helpers, "each").call(depth0 != null ? depth0 : container.nullContext || {}, depth0, {
-      "name": "each",
+    return "<div class='card'>\r\n  <div class='card-img'>\r\n" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "poster_path") : depth0, {
+      "name": "if",
       "hash": {},
       "fn": container.program(1, data, 0),
-      "inverse": container.noop,
+      "inverse": container.program(3, data, 0),
       "data": data,
       "loc": {
         "start": {
-          "line": 1,
-          "column": 0
+          "line": 3,
+          "column": 4
+        },
+        "end": {
+          "line": 15,
+          "column": 11
+        }
+      }
+    })) != null ? stack1 : "") + "  </div>\r\n  <div class='card-content'>\r\n    <h1 class='card-name'> " + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "title",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 18,
+          "column": 27
+        },
+        "end": {
+          "line": 18,
+          "column": 36
+        }
+      }
+    }) : helper)) + "</h1>\r\n    <p class='card-text'>Vote / Votes " + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "vote_average",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 19,
+          "column": 38
         },
         "end": {
           "line": 19,
-          "column": 9
+          "column": 54
         }
       }
-    })) != null ? stack1 : "";
+    }) : helper)) + "</p>\r\n    <p class='card-text'>Popularity " + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "popularity",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 20,
+          "column": 36
+        },
+        "end": {
+          "line": 20,
+          "column": 50
+        }
+      }
+    }) : helper)) + "</p>\r\n    <p class='card-text'>Original Title " + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "original_title",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 21,
+          "column": 40
+        },
+        "end": {
+          "line": 21,
+          "column": 58
+        }
+      }
+    }) : helper)) + "</p>\r\n    <p class='card-text'>Genre " + alias4((helper = (helper = lookupProperty(helpers, "genre_ids") || (depth0 != null ? lookupProperty(depth0, "genre_ids") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "genre_ids",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 22,
+          "column": 31
+        },
+        "end": {
+          "line": 22,
+          "column": 44
+        }
+      }
+    }) : helper)) + "</p>\r\n    <p class='card-about'>About " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "overview",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 23,
+          "column": 32
+        },
+        "end": {
+          "line": 23,
+          "column": 44
+        }
+      }
+    }) : helper)) + "</p>\r\n  </div>\r\n</div>\r\n<button class='button'>add to Watched</button>\r\n<button class='button'>add to queue</button>";
   },
   "useData": true
 });
@@ -2404,22 +2412,28 @@ class NewApiService {
     this.searchQuery = '';
     this.page = 1;
   }
-  // ф-ция с ссылкой для рендера популярных фильмов при загрузке сайта////
+  // запрос за популярными фильмами при загрузке сайта ////
   fetchArticles() {
     const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=b32f977d148061c9ab22a471ff2c7792&page=${this.page}`;
     return fetch(url).then(response => response.json()).then(data => {
-      console.log(data);
       this.incrementPage();
       return data.results;
     });
   }
+
+  // запрос за фильмами в поиске ////
   filmRequest() {
     const url = `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&page=${this.page}&include_adult=false&query=${this.searchQuery}`;
     return fetch(url).then(response => response.json()).then(data => {
-      console.log(data);
       this.incrementPage();
       return data.results;
     });
+  }
+
+  // запрос за фильмо по Id ////
+  getFilmById(id) {
+    const url = `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=en-US`;
+    return fetch(url).then(response => response.json());
   }
   incrementPage() {
     this.page += 1;
@@ -2482,24 +2496,39 @@ const refs = {
   galleryList: document.querySelector('.gallery-list'),
   galleryItem: document.querySelector('.gallery-item'),
   backdrop: document.querySelector('.backdrop'),
-  buttonModalClose: document.querySelector('.modal-close')
+  buttonModalClose: document.querySelector('.modal-close'),
+  modal: document.querySelector('.modal')
 };
 refs.galleryList.addEventListener('click', evt => {
   openModalFilm(evt);
 });
 
-/////// открыть модолку при клике на img вешаем класс is-open/////
+/////// открыть модолку при клике на img вешаем класс/////
 function openModalFilm(evt) {
   if (!evt.target.nodeName === 'IMG') {
     return;
   }
+  getMovieId(evt);
   refs.backdrop.classList.add('is-open');
+  refs.buttonModalClose.addEventListener('click', closeModalFilm);
 }
-console.log(refs.buttonModalClose);
-refs.buttonModalClose.addEventListener('click', closeModalFilm);
 function closeModalFilm(evt) {
-  console.log(evt);
   refs.backdrop.classList.remove('is-open');
+  refs.buttonModalClose.removeEventListener('click', closeModalFilm);
+}
+function getMovieId(evt) {
+  const movieId = evt.target.getAttribute('data-movie-id');
+  console.log(movieId);
+  // TODO: Fetch movie data by id
+  apiService.getFilmById(movieId).then(movie => {
+    console.log(movie);
+    // TODO: Add template for render movie in modal
+    // TODO: Insert template in modal html
+
+    refs.modal.insertAdjacentHTML('beforeend', (0, _modal.default)(movie));
+  }).catch(err => {
+    console.log(err);
+  });
 }
 },{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","./templates/modal.hbs":"templates/modal.hbs","./js/news-service":"js/news-service.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -2526,7 +2555,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53182" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51088" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
