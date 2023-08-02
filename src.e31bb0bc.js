@@ -2322,77 +2322,77 @@ const templateFunction = _handlebars.default.template({
           "column": 36
         }
       }
-    }) : helper)) + "</h1>\r\n    <p class='card-text'>Vote / Votes " + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</h1>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Vote / Votes</span>" + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "vote_average",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 19,
-          "column": 38
+          "line": 20,
+          "column": 54
         },
         "end": {
-          "line": 19,
-          "column": 54
+          "line": 20,
+          "column": 70
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-text'>Popularity " + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</p>\r\n    <p class='card-text'><span class='card-text-grey'>Popularity</span>\r\n      " + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "popularity",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 20,
-          "column": 36
+          "line": 22,
+          "column": 6
         },
         "end": {
-          "line": 20,
-          "column": 50
+          "line": 22,
+          "column": 20
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-text'>Original Title " + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</p>\r\n    <p class='card-text'><span class='card-text-grey'>Original Title\r\n      </span>" + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "original_title",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 21,
-          "column": 40
+          "line": 24,
+          "column": 13
         },
         "end": {
-          "line": 21,
-          "column": 58
+          "line": 24,
+          "column": 31
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-text'>Genre " + alias4((helper = (helper = lookupProperty(helpers, "genre_ids") || (depth0 != null ? lookupProperty(depth0, "genre_ids") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</p>\r\n    <p class='card-text'><span class='card-text-grey'>\r\n        Genre\r\n      </span>" + alias4((helper = (helper = lookupProperty(helpers, "genre_ids") || (depth0 != null ? lookupProperty(depth0, "genre_ids") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "genre_ids",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 22,
-          "column": 31
+          "line": 27,
+          "column": 13
         },
         "end": {
-          "line": 22,
-          "column": 44
+          "line": 27,
+          "column": 26
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-about'>About " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</p>\r\n    <p class='card-about'>About</p>\r\n    <p class='card-about-description'> " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "overview",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 23,
-          "column": 32
+          "line": 29,
+          "column": 39
         },
         "end": {
-          "line": 23,
-          "column": 44
+          "line": 29,
+          "column": 51
         }
       }
-    }) : helper)) + "</p>\r\n  </div>\r\n</div>\r\n<button class='button'>add to Watched</button>\r\n<button class='button'>add to queue</button>";
+    }) : helper)) + "</p>\r\n    <div class='wrapper-button-modal'>\r\n      <button class='button button-modal'>add to Watched</button>\r\n      <button class='button button-modal'>add to queue</button>\r\n    </div>\r\n\r\n  </div>\r\n</div>";
   },
   "useData": true
 });
@@ -2497,7 +2497,7 @@ const refs = {
   galleryItem: document.querySelector('.gallery-item'),
   backdrop: document.querySelector('.backdrop'),
   buttonModalClose: document.querySelector('.modal-close'),
-  modal: document.querySelector('.modal')
+  modalContent: document.querySelector('.modal-content')
 };
 refs.galleryList.addEventListener('click', evt => {
   openModalFilm(evt);
@@ -2515,17 +2515,19 @@ function openModalFilm(evt) {
 function closeModalFilm(evt) {
   refs.backdrop.classList.remove('is-open');
   refs.buttonModalClose.removeEventListener('click', closeModalFilm);
+  refs.modalContent.innerHTML = '';
 }
+// //////////рендер  модалки////
 function getMovieId(evt) {
   const movieId = evt.target.getAttribute('data-movie-id');
   console.log(movieId);
-  // TODO: Fetch movie data by id
+  // зaрос данных фильма по ID
   apiService.getFilmById(movieId).then(movie => {
     console.log(movie);
     // TODO: Add template for render movie in modal
     // TODO: Insert template in modal html
 
-    refs.modal.insertAdjacentHTML('beforeend', (0, _modal.default)(movie));
+    refs.modalContent.insertAdjacentHTML('beforeend', (0, _modal.default)(movie));
   }).catch(err => {
     console.log(err);
   });
@@ -2555,7 +2557,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51088" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63560" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
