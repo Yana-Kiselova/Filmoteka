@@ -1,0 +1,129 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  background: #fff;
+}
+.modal-content {
+  height: 100%;
+}
+.modal-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border: none;
+  &-icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.is-open {
+  pointer-events: all;
+  opacity: 1;
+  visibility: visible;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  column-gap: 30px;
+  padding: 50px 20px 40px 20px;
+  &-img {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    flex-basis: calc((100% - 30px) / 2);
+    overflow: hidden;
+  }
+  .modal-img {
+    object-fit: cover;
+    // height: 356px;
+    border-radius: 5px;
+  }
+  &-content {
+    flex-basis: calc((100% - 30px) / 2);
+  }
+  /////////////////
+  &-name {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  &-text,
+  &-card-about,
+  &-about-description {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  &-text {
+    margin-bottom: 10px;
+    line-height: 1.33;
+  }
+  &-text-grey {
+    color: #8c8c8c;
+  }
+  &-card-about {
+    line-height: 1.33;
+    text-transform: uppercase;
+  }
+  &-about-description {
+    margin-bottom: 21px;
+    line-height: 1.66;
+  }
+}
+.wrapper-button-modal {
+  display: flex;
+  justify-content: center;
+  column-gap: 15px;
+}
+
+@media (min-width: 768px) {
+  .card-name {
+    margin-top: 0px;
+  }
+  .modal {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .modal {
+    width: 882px;
+    height: 568px;
+  }
+  .card {
+    flex-direction: row;
+    padding: 50px 30px 40px 30px;
+    &-name {
+      font-size: 30px;
+    }
+  }
+}

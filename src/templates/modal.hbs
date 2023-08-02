@@ -1,0 +1,36 @@
+<div class='card'>
+  <div class='card-img'>
+    {{#if poster_path}}
+      <img
+        class='modal-img'
+        style='max-width: 100%;'
+        src='https://image.tmdb.org/t/p/w500/{{poster_path}}'
+        alt='{{title}}'
+      />
+    {{else}}
+      <img
+        src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'
+        class='modal-img'
+      />
+    {{/if}}
+  </div>
+  <div class='card-content'>
+    <h1 class='card-name'> {{title}}</h1>
+    <p class='card-text'>
+      <span class='card-text-grey'>Vote / Votes</span>{{vote_average}}</p>
+    <p class='card-text'><span class='card-text-grey'>Popularity</span>
+      {{popularity}}</p>
+    <p class='card-text'><span class='card-text-grey'>Original Title
+      </span>{{original_title}}</p>
+    <p class='card-text'><span class='card-text-grey'>
+        Genre
+      </span>{{genre_ids}}</p>
+    <p class='card-about'>About</p>
+    <p class='card-about-description'> {{overview}}</p>
+    <div class='wrapper-button-modal'>
+      <button class='button button-modal'>add to Watched</button>
+      <button class='button button-modal'>add to queue</button>
+    </div>
+
+  </div>
+</div>

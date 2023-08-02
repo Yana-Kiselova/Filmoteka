@@ -24,11 +24,12 @@
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.6.0",
+    "cssnano": "^4.1.11",
+    "parcel-bundler": "^1.12.5",
     "parcel-plugin-handlebars-precompile": "^1.0.2",
     "parcel-reporter-clean-dist": "^1.0.4",
     "posthtml-include": "^1.7.4",
-    "parcel-bundler": "^1.12.5"
+    "sass": "^1.32.8"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead"
 }
