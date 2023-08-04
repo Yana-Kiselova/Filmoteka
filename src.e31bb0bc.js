@@ -2223,7 +2223,118 @@ const templateFunction = _handlebars.default.template({
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"templates/modal.hbs":[function(require,module,exports) {
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/news-service.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+const API_KEY = 'b32f977d148061c9ab22a471ff2c7792';
+const BASE_URL = 'https://api.themoviedb.org/3/';
+class NewApiService {
+  constructor() {
+    this.searchQuery = '';
+    this.page = 1;
+  }
+  // запрос за популярными фильмами при загрузке сайта ////
+  fetchArticles() {
+    const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=b32f977d148061c9ab22a471ff2c7792&page=${this.page}`;
+    return fetch(url).then(response => response.json()).then(data => {
+      this.incrementPage();
+      return data.results;
+    });
+  }
+
+  // запрос за фильмами в поиске ////
+  filmRequest() {
+    const url = `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&page=${this.page}&include_adult=false&query=${this.searchQuery}`;
+    return fetch(url).then(response => response.json()).then(data => {
+      this.incrementPage();
+      return data.results;
+    });
+  }
+
+  // запрос за фильмо по Id ////
+  getFilmById(id) {
+    const url = `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=en-US`;
+    return fetch(url).then(response => response.json());
+  }
+  incrementPage() {
+    this.page += 1;
+  }
+  resetPage() {
+    this.page = 1;
+  }
+  setSearchQuery(data) {
+    this.searchQuery = data;
+  }
+}
+exports.default = NewApiService;
+},{}],"templates/header-home.hbs":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _handlebars = _interopRequireDefault(require("handlebars/dist/handlebars.runtime"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const templateFunction = _handlebars.default.template({
+  "compiler": [8, ">= 4.3.0"],
+  "main": function (container, depth0, helpers, partials, data) {
+    return "<div class='header-input-wrapper'>\r\n  <label class='header-input-label' for=''>\r\n    <input\r\n      id='header-input'\r\n      class='header-input'\r\n      type='text'\r\n      placeholder='Поиск фильмов'\r\n    />\r\n    <svg class='header-input-icon'>\r\n      <use href='./images/sprait/symbol-defs.svg#icon-search-2'></use>\r\n    </svg>\r\n  </label>\r\n</div>";
+  },
+  "useData": true
+});
+var _default = templateFunction;
+exports.default = _default;
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"templates/header-library.hbs":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _handlebars = _interopRequireDefault(require("handlebars/dist/handlebars.runtime"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const templateFunction = _handlebars.default.template({
+  "compiler": [8, ">= 4.3.0"],
+  "main": function (container, depth0, helpers, partials, data) {
+    return "<div class='header-button-wrapper'>\r\n  <ul class='header-button-list list'>\r\n    <li class='header-button-item item'>\r\n      <button class='button button-header'>Watched</button>\r\n    </li>\r\n    <li class='header-button-item item'>\r\n      <button class='button button-header'>queue</button>\r\n    </li>\r\n  </ul>\r\n</div>";
+  },
+  "useData": true
+});
+var _default = templateFunction;
+exports.default = _default;
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/header.js":[function(require,module,exports) {
+"use strict";
+
+var _headerHome = _interopRequireDefault(require("../templates/header-home.hbs"));
+var _headerLibrary = _interopRequireDefault(require("../templates/header-library.hbs"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const refs = {
+  header: document.querySelector('.header'),
+  libraryLink: document.querySelector('.header-link-library'),
+  headerButtonWrapper: document.querySelector('.header-button-wrapped'),
+  // input: document.querySelector('.header-input-wrapped'),
+  headerContent: document.querySelector('.header-content')
+};
+refs.libraryLink.addEventListener('click', myLibrary);
+function initializeHeader() {
+  refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerHome.default)());
+}
+initializeHeader();
+function myLibrary(evt) {
+  evt.preventDefault();
+  refs.headerContent.innerHTML = '';
+  refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerLibrary.default)());
+
+  // refs.headerButtonWrapper.classList.add('is-open');
+  refs.header.classList.add('library');
+  // refs.input.classList.add('is-hidden');
+}
+},{"../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs"}],"templates/modal.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2398,100 +2509,13 @@ const templateFunction = _handlebars.default.template({
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/news-service.js":[function(require,module,exports) {
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/modal-card.js":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-const API_KEY = 'b32f977d148061c9ab22a471ff2c7792';
-const BASE_URL = 'https://api.themoviedb.org/3/';
-class NewApiService {
-  constructor() {
-    this.searchQuery = '';
-    this.page = 1;
-  }
-  // запрос за популярными фильмами при загрузке сайта ////
-  fetchArticles() {
-    const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=b32f977d148061c9ab22a471ff2c7792&page=${this.page}`;
-    return fetch(url).then(response => response.json()).then(data => {
-      this.incrementPage();
-      return data.results;
-    });
-  }
-
-  // запрос за фильмами в поиске ////
-  filmRequest() {
-    const url = `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&page=${this.page}&include_adult=false&query=${this.searchQuery}`;
-    return fetch(url).then(response => response.json()).then(data => {
-      this.incrementPage();
-      return data.results;
-    });
-  }
-
-  // запрос за фильмо по Id ////
-  getFilmById(id) {
-    const url = `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=en-US`;
-    return fetch(url).then(response => response.json());
-  }
-  incrementPage() {
-    this.page += 1;
-  }
-  resetPage() {
-    this.page = 1;
-  }
-  setSearchQuery(data) {
-    this.searchQuery = data;
-  }
-}
-exports.default = NewApiService;
-},{}],"index.js":[function(require,module,exports) {
-"use strict";
-
-var _lodash = _interopRequireDefault(require("lodash.debounce"));
-var _appenFilmMarkup = _interopRequireDefault(require("./templates/appenFilmMarkup.hbs"));
-var _modal = _interopRequireDefault(require("./templates/modal.hbs"));
-var _newsService = _interopRequireDefault(require("./js/news-service"));
+var _newsService = _interopRequireDefault(require("./news-service"));
+var _modal = _interopRequireDefault(require("../templates/modal.hbs"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const apiService = new _newsService.default();
-
-/////// рендер популярных фильмов //////
-function fetchTrending() {
-  apiService.fetchArticles().then(data => {
-    addListTemplates(data);
-  });
-}
-fetchTrending();
-//////////////////////////////////////////////
-//получаю доступ у элементам//
-const inputEl = document.querySelector('#header-input');
-const galeryEl = document.querySelector('.gallery-list');
-inputEl.addEventListener('input', (0, _lodash.default)(filmName, 1000));
-//если инпут пустая строка =>галерея пустая и выходим
-function filmName(e) {
-  if (e.target.value.trim() === '') {
-    galeryEl.innerHTML = '';
-    fetchTrending();
-    return;
-  }
-  //если длина массива =0 =>алерт и выход
-  apiService.setSearchQuery(e.target.value);
-  apiService.filmRequest().then(data => {
-    if (data.length === 0) {
-      return alert('проверте правильность ввода');
-    }
-    galeryEl.innerHTML = '';
-    addListTemplates(data);
-  });
-}
-// добавляем разметку галлереи по шаблону//
-function addListTemplates(results) {
-  console.log(results, galeryEl);
-  galeryEl.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
-}
-
-///////////////////////////modal////////////////////////////
 const refs = {
   galleryList: document.querySelector('.gallery-list'),
   galleryItem: document.querySelector('.gallery-item'),
@@ -2532,7 +2556,52 @@ function getMovieId(evt) {
     console.log(err);
   });
 }
-},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","./templates/modal.hbs":"templates/modal.hbs","./js/news-service":"js/news-service.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs"}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _lodash = _interopRequireDefault(require("lodash.debounce"));
+var _appenFilmMarkup = _interopRequireDefault(require("./templates/appenFilmMarkup.hbs"));
+var _newsService = _interopRequireDefault(require("./js/news-service"));
+require("./js/header");
+require("./js/modal-card");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const apiService = new _newsService.default();
+
+/////// рендер популярных фильмов //////
+function fetchTrending() {
+  apiService.fetchArticles().then(data => {
+    addListTemplates(data);
+  });
+}
+fetchTrending();
+//////////////////////////////////////////////
+//получаю доступ у элементам//
+const inputEl = document.querySelector('#header-input');
+const galeryEl = document.querySelector('.gallery-list');
+inputEl.addEventListener('input', (0, _lodash.default)(filmName, 1000));
+//если инпут пустая строка =>галерея пустая и выходим
+function filmName(e) {
+  if (e.target.value.trim() === '') {
+    galeryEl.innerHTML = '';
+    fetchTrending();
+    return;
+  }
+  //если длина массива =0 =>алерт и выход
+  apiService.setSearchQuery(e.target.value);
+  apiService.filmRequest().then(data => {
+    if (data.length === 0) {
+      return alert('проверте правильность ввода');
+    }
+    galeryEl.innerHTML = '';
+    addListTemplates(data);
+  });
+}
+// добавляем разметку галлереи по шаблону//
+function addListTemplates(results) {
+  console.log(results, galeryEl);
+  galeryEl.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
+}
+},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","./js/news-service":"js/news-service.js","./js/header":"js/header.js","./js/modal-card":"js/modal-card.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2557,7 +2626,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63560" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60897" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
