@@ -7,11 +7,17 @@
     display: none;
   }
 }
+.header-content {
+  width: 100%;
+}
 .header {
-  background: rgba(0, 0, 0, 0.56);
-  background: url('../images/header-mobile.png');
+  background-color: rgba(0, 0, 0, 0.56);
+  background-image: url('../images/header-mobile.png');
   background-size: cover;
   background-repeat: no-repeat;
+  &.library {
+    background-image: url('../images/header-library.png');
+  }
   &-link {
     font-weight: 500;
     font-size: 12px;
@@ -25,7 +31,7 @@
   &-item:not(:last-child) {
     margin-right: 39px;
   }
-  &-input-wrapped {
+  &-input-wrapper {
     width: 100%;
     text-align: center;
     margin-bottom: 26px;
@@ -41,8 +47,6 @@
     font-weight: 400;
   }
   &-input::placeholder {
-    // font-size: 14px;
-    // font-weight: 400;
     color: #fff;
   }
 
@@ -57,6 +61,11 @@
     position: relative;
   }
 }
+// .is-hidden {
+//   opacity: 0;
+//   visibility: hidden;
+//   pointer-events: none;
+// }
 .active::after {
   content: '';
   display: block;
@@ -66,18 +75,18 @@
   background-color: var(--accent-color);
 }
 
-// .header-button-wrapped {
-//   // display: none;
-//   width: 100%;
-//   margin-bottom: 10px;
-// }
-// .header-button-list {
-//   display: flex;
-//   justify-content: center;
-// }
-// .header-button-item:not(:last-child) {
-//   margin-right: 15px;
-// }
+.header-button-wrapper {
+  width: 100%;
+  margin-bottom: 6px;
+  margin-top: 45px;
+}
+.header-button-list {
+  display: flex;
+  justify-content: center;
+}
+.header-button-item:not(:last-child) {
+  margin-right: 15px;
+}
 
 @media (min-width: 768px) {
   .logo {
@@ -98,14 +107,15 @@
   .header-list {
     margin-top: 17px;
   }
-  .header-input-wrapped {
-    margin-bottom: 22px;
+  .header-input-wrapper {
+    margin-bottom: 38px;
   }
+
   .header-input {
     width: 336px;
   }
   .header {
-    background: url('../images/header-tablet.png');
+    background-image: url('../images/header-tablet.png');
     background-size: cover;
     background-repeat: no-repeat;
   }
@@ -115,8 +125,11 @@
   .header {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25),
       0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    background: url('../images/header.png');
+    background-image: url('../images/header.png');
 
+    &.library {
+      background-image: url('../images/header-library.png');
+    }
     // background: lightgray 0px 0.655px / 100%  292.273%no-repeat;
   }
   .logo {
