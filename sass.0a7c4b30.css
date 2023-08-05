@@ -170,12 +170,6 @@ img {
   position: relative;
 }
 
-.is-hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .active::after {
   content: "";
   display: block;
