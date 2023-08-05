@@ -2512,25 +2512,46 @@ const templateFunction = _handlebars.default.template({
           "column": 51
         }
       }
-    }) : helper)) + "</p>\r\n    <div class='wrapper-button-modal'>\r\n      <button class='button button-modal'>add to Watched</button>\r\n      <button class='button button-modal'>add to queue</button>\r\n    </div>\r\n\r\n  </div>\r\n</div>";
+    }) : helper)) + "</p>\r\n    <div class='wrapper-button-modal'>\r\n      <button class='button button-modal button-watched-js'>add to Watched</button>\r\n      <button class='button button-modal button-queue-js'>add to queue</button>\r\n    </div>\r\n\r\n  </div>\r\n</div>";
   },
   "useData": true
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/modal-card.js":[function(require,module,exports) {
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/local-storage.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getLocalStorage = getLocalStorage;
+exports.setLocalStorage = setLocalStorage;
+function setLocalStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+function getLocalStorage(key) {
+  const value = localStorage.getItem(key);
+  if (!value) {
+    return null;
+  }
+  return JSON.parse(value);
+}
+},{}],"js/modal-card.js":[function(require,module,exports) {
 "use strict";
 
 var _newsService = _interopRequireDefault(require("./news-service"));
 var _modal = _interopRequireDefault(require("../templates/modal.hbs"));
+var _localStorage = require("./local-storage");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const apiService = new _newsService.default();
+let movieId = '';
 const refs = {
   galleryList: document.querySelector('.gallery-list'),
-  galleryItem: document.querySelector('.gallery-item'),
   backdrop: document.querySelector('.backdrop'),
   buttonModalClose: document.querySelector('.modal-close'),
-  modalContent: document.querySelector('.modal-content')
+  modalContent: document.querySelector('.modal-content'),
+  buttonWatched: document.querySelector('.button-watched-js'),
+  buttonQueue: document.querySelector('.button-queue-js')
 };
 refs.galleryList.addEventListener('click', evt => {
   openModalFilm(evt);
@@ -2552,7 +2573,7 @@ function closeModalFilm(evt) {
 }
 // //////////рендер  модалки////
 function getMovieId(evt) {
-  const movieId = evt.target.getAttribute('data-movie-id');
+  movieId = evt.target.getAttribute('data-movie-id');
   console.log(movieId);
   // зaрос данных фильма по ID
   apiService.getFilmById(movieId).then(movie => {
@@ -2561,11 +2582,71 @@ function getMovieId(evt) {
     // TODO: Insert template in modal html
 
     refs.modalContent.insertAdjacentHTML('beforeend', (0, _modal.default)(movie));
+    setButtonsListeners();
   }).catch(err => {
     console.log(err);
   });
 }
-},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs"}],"index.js":[function(require,module,exports) {
+
+//////coхранение в localStorage/////////
+function setButtonsListeners() {
+  refs.buttonWatched = document.querySelector('.button-watched-js');
+  refs.buttonQueue = document.querySelector('.button-queue-js');
+  refs.buttonWatched.addEventListener('click', addWatched);
+  refs.buttonQueue.addEventListener('click', addQueue);
+  checkLocalStorage();
+}
+function addWatched(evt) {
+  evt.preventDefault();
+  const watched = (0, _localStorage.getLocalStorage)('watched');
+  if (watched) {
+    if (watched.includes(movieId)) {
+      const arr = watched.filter(id => id !== movieId);
+      (0, _localStorage.setLocalStorage)('watched', arr);
+      refs.buttonWatched.classList.remove('active');
+      refs.buttonWatched.blur();
+      return;
+    }
+    watched.push(movieId);
+    (0, _localStorage.setLocalStorage)('watched', watched);
+    refs.buttonWatched.classList.add('active');
+  } else {
+    const arr = [];
+    arr.push(movieId);
+    (0, _localStorage.setLocalStorage)('watched', arr);
+  }
+}
+function checkLocalStorage() {
+  const watched = (0, _localStorage.getLocalStorage)('watched');
+  if (watched && watched.includes(movieId)) {
+    refs.buttonWatched.classList.add('active');
+  }
+  const queue = (0, _localStorage.getLocalStorage)('queue');
+  if (queue && queue.includes(movieId)) {
+    refs.buttonQueue.classList.add('active');
+  }
+}
+function addQueue(evt) {
+  evt.preventDefault();
+  const queue = (0, _localStorage.getLocalStorage)('queue');
+  if (queue) {
+    if (queue.includes(movieId)) {
+      const arr = queue.filter(id => id !== movieId);
+      (0, _localStorage.setLocalStorage)('queue', arr);
+      refs.buttonQueue.classList.remove('active');
+      refs.buttonQueue.blur();
+      return;
+    }
+    queue.push(movieId);
+    (0, _localStorage.setLocalStorage)('queue', queue);
+    refs.buttonQueue.classList.add('active');
+  } else {
+    const arr = [];
+    arr.push(movieId);
+    (0, _localStorage.setLocalStorage)('queue', arr);
+  }
+}
+},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -2635,7 +2716,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49892" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49823" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
