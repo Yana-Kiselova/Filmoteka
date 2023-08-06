@@ -497,6 +497,54 @@ function toNumber(value) {
 
 module.exports = debounce;
 
+},{}],"js/news-service.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+const API_KEY = 'b32f977d148061c9ab22a471ff2c7792';
+const BASE_URL = 'https://api.themoviedb.org/3/';
+class NewApiService {
+  constructor() {
+    this.searchQuery = '';
+    this.page = 1;
+  }
+  // запрос за популярными фильмами при загрузке сайта ////
+  fetchArticles() {
+    const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=b32f977d148061c9ab22a471ff2c7792&page=${this.page}`;
+    return fetch(url).then(response => response.json()).then(data => {
+      this.incrementPage();
+      return data.results;
+    });
+  }
+
+  // запрос за фильмами в поиске ////
+  filmRequest() {
+    const url = `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&page=${this.page}&include_adult=false&query=${this.searchQuery}`;
+    return fetch(url).then(response => response.json()).then(data => {
+      this.incrementPage();
+      return data.results;
+    });
+  }
+
+  // запрос за фильмо по Id ////
+  getFilmById(id) {
+    const url = `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=en-US`;
+    return fetch(url).then(response => response.json());
+  }
+  incrementPage() {
+    this.page += 1;
+  }
+  resetPage() {
+    this.page = 1;
+  }
+  setSearchQuery(data) {
+    this.searchQuery = data;
+  }
+}
+exports.default = NewApiService;
 },{}],"../node_modules/handlebars/dist/handlebars.runtime.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
@@ -2223,55 +2271,7 @@ const templateFunction = _handlebars.default.template({
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/news-service.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-const API_KEY = 'b32f977d148061c9ab22a471ff2c7792';
-const BASE_URL = 'https://api.themoviedb.org/3/';
-class NewApiService {
-  constructor() {
-    this.searchQuery = '';
-    this.page = 1;
-  }
-  // запрос за популярными фильмами при загрузке сайта ////
-  fetchArticles() {
-    const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=b32f977d148061c9ab22a471ff2c7792&page=${this.page}`;
-    return fetch(url).then(response => response.json()).then(data => {
-      this.incrementPage();
-      return data.results;
-    });
-  }
-
-  // запрос за фильмами в поиске ////
-  filmRequest() {
-    const url = `${BASE_URL}search/movie?api_key=${API_KEY}&language=en-US&page=${this.page}&include_adult=false&query=${this.searchQuery}`;
-    return fetch(url).then(response => response.json()).then(data => {
-      this.incrementPage();
-      return data.results;
-    });
-  }
-
-  // запрос за фильмо по Id ////
-  getFilmById(id) {
-    const url = `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=en-US`;
-    return fetch(url).then(response => response.json());
-  }
-  incrementPage() {
-    this.page += 1;
-  }
-  resetPage() {
-    this.page = 1;
-  }
-  setSearchQuery(data) {
-    this.searchQuery = data;
-  }
-}
-exports.default = NewApiService;
-},{}],"templates/header-home.hbs":[function(require,module,exports) {
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"templates/header-home.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2310,25 +2310,70 @@ exports.default = _default;
 },{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/header.js":[function(require,module,exports) {
 "use strict";
 
+var _lodash = _interopRequireDefault(require("lodash.debounce"));
+var _newsService = _interopRequireDefault(require("./news-service"));
+var _appenFilmMarkup = _interopRequireDefault(require("../templates/appenFilmMarkup.hbs"));
 var _headerHome = _interopRequireDefault(require("../templates/header-home.hbs"));
 var _headerLibrary = _interopRequireDefault(require("../templates/header-library.hbs"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const apiService = new _newsService.default();
 const refs = {
   header: document.querySelector('.header'),
   libraryLink: document.querySelector('.link-library-js'),
   homeLink: document.querySelector('.link-home-js'),
-  // headerButtonWrapper: document.querySelector('.header-button-wrapper'),
-  // input: document.querySelector('.header-input-wrapped'),
-  headerContent: document.querySelector('.header-content')
+  headerContent: document.querySelector('.header-content'),
+  input: document.querySelector('#header-input'),
+  galery: document.querySelector('.gallery-list')
 };
 refs.libraryLink.addEventListener('click', myLibrary);
 refs.homeLink.addEventListener('click', home);
 function initializeHeader() {
   refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerHome.default)());
+  refs.input = document.querySelector('#header-input');
+  refs.input.addEventListener('input', (0, _lodash.default)(filmName, 1000));
+  apiService.setSearchQuery('');
+  fetchTrending();
 }
+// ========= инициализация хедера и запрос популярных =========
 initializeHeader();
+
+/////// рендер популярных фильмов //////
+function fetchTrending() {
+  apiService.fetchArticles().then(data => {
+    addListTemplates(data);
+  });
+}
+
+// ========= если инпут пустая строка =>галерея пустая и выходим =========
+function filmName(e) {
+  if (e.target.value.trim() === '') {
+    refs.galery.innerHTML = '';
+    apiService.setSearchQuery('');
+    apiService.resetPage();
+    fetchTrending();
+    return;
+  }
+  if (apiService.searchQuery !== e.target.value) {
+    apiService.resetPage();
+  }
+  //если длина массива =0 =>алерт и выход
+  apiService.setSearchQuery(e.target.value);
+  apiService.filmRequest().then(data => {
+    if (data.length === 0) {
+      return alert('проверте правильность ввода');
+    }
+    refs.galery.innerHTML = '';
+    addListTemplates(data);
+  });
+}
+
+// добавляем разметку галлереи по шаблону//
+function addListTemplates(results) {
+  refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
+}
 function myLibrary(evt) {
   evt.preventDefault();
+  refs.input.removeEventListener('input', (0, _lodash.default)(filmName, 1000));
   refs.headerContent.innerHTML = '';
   refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerLibrary.default)());
   refs.libraryLink.classList.add('active');
@@ -2343,7 +2388,7 @@ function home(evt) {
   refs.libraryLink.classList.remove('active');
   refs.homeLink.classList.add('active');
 }
-},{"../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs"}],"templates/modal.hbs":[function(require,module,exports) {
+},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs"}],"templates/modal.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2688,49 +2733,9 @@ function removeFromLocalStorage(key, array, button) {
 },{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
-var _lodash = _interopRequireDefault(require("lodash.debounce"));
-var _appenFilmMarkup = _interopRequireDefault(require("./templates/appenFilmMarkup.hbs"));
-var _newsService = _interopRequireDefault(require("./js/news-service"));
 require("./js/header");
 require("./js/modal-card");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const apiService = new _newsService.default();
-
-/////// рендер популярных фильмов //////
-function fetchTrending() {
-  apiService.fetchArticles().then(data => {
-    addListTemplates(data);
-  });
-}
-fetchTrending();
-//////////////////////////////////////////////
-//получаю доступ у элементам//
-const inputEl = document.querySelector('#header-input');
-const galeryEl = document.querySelector('.gallery-list');
-inputEl.addEventListener('input', (0, _lodash.default)(filmName, 1000));
-//если инпут пустая строка =>галерея пустая и выходим
-function filmName(e) {
-  if (e.target.value.trim() === '') {
-    galeryEl.innerHTML = '';
-    fetchTrending();
-    return;
-  }
-  //если длина массива =0 =>алерт и выход
-  apiService.setSearchQuery(e.target.value);
-  apiService.filmRequest().then(data => {
-    if (data.length === 0) {
-      return alert('проверте правильность ввода');
-    }
-    galeryEl.innerHTML = '';
-    addListTemplates(data);
-  });
-}
-// добавляем разметку галлереи по шаблону//
-function addListTemplates(results) {
-  console.log(results, galeryEl);
-  galeryEl.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
-}
-},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","./js/news-service":"js/news-service.js","./js/header":"js/header.js","./js/modal-card":"js/modal-card.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./js/header":"js/header.js","./js/modal-card":"js/modal-card.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2755,7 +2760,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49791" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62015" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
