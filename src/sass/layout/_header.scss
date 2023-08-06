@@ -85,7 +85,7 @@
   justify-content: center;
 }
 .header-button-item:not(:last-child) {
-  margin-right: 15px;
+  margin-right: 20px;
 }
 
 @media (min-width: 768px) {
@@ -118,6 +118,9 @@
     background-image: url('../images/header-tablet.png');
     background-size: cover;
     background-repeat: no-repeat;
+  }
+  .header-button-item:not(:last-child) {
+    margin-right: 15px;
   }
 }
 
