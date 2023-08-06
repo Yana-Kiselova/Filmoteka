@@ -191,7 +191,7 @@ img {
 }
 
 .header-button-item:not(:last-child) {
-  margin-right: 15px;
+  margin-right: 20px;
 }
 
 @media (min-width: 768px) {
@@ -226,6 +226,10 @@ img {
     background-image: url("/header-tablet.e7c6124e.png");
     background-size: cover;
     background-repeat: no-repeat;
+  }
+
+  .header-button-item:not(:last-child) {
+    margin-right: 15px;
   }
 }
 @media (min-width: 1024px) {
