@@ -3,6 +3,7 @@ import NewApiService from './news-service';
 import galleryTemplates from '../templates/appenFilmMarkup.hbs';
 import homeTemplate from '../templates/header-home.hbs';
 import libraryTemplate from '../templates/header-library.hbs';
+import { getLocalStorage } from './local-storage';
 
 const apiService = new NewApiService();
 
@@ -85,10 +86,51 @@ function addLibraryButtonsListeners() {
 
   refs.buttonHeaderQueue.addEventListener('click', renderQueueList);
   refs.buttonHeaderWatched.addEventListener('click', renderWathedList);
+  refs.galery.innerHTML = '';
+  renderQueueList();
 }
 
-function renderWathedList() {}
-function renderQueueList() {}
+function renderWathedList() {
+  // 1. Снять класс актив с кнопки Кью и повесить на Вотчед
+  refs.buttonHeaderWatched.classList.add('active');
+  refs.buttonHeaderQueue.classList.remove('active');
+  // 2. Получить список вотчед из локалсторадж
+  const watched = getLocalStorage('watched');
+  // 3. Сделать иф если вотчед есть делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
+  if (watched && watched.length) {
+    const movieArr = watched.map(id => {
+      return apiService.getFilmById(id);
+    });
+    Promise.all(movieArr).then(data => {
+      // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
+      refs.galery.innerHTML = '';
+      refs.galery.insertAdjacentHTML('beforeend', galleryTemplates(data));
+    });
+  } else {
+    alert('нет просмотренных фильмов');
+  }
+}
+
+function renderQueueList() {
+  // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
+  refs.buttonHeaderWatched.classList.remove('active');
+  refs.buttonHeaderQueue.classList.add('active');
+  // 2. Получить список кью из локалсторадж
+  const queue = getLocalStorage('queue');
+  // 3. Сделать иф если кью делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
+  if (queue && queue.length) {
+    const movieArr = queue.map(id => {
+      return apiService.getFilmById(id);
+    });
+    // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
+    Promise.all(movieArr).then(data => {
+      refs.galery.innerHTML = '';
+      refs.galery.insertAdjacentHTML('beforeend', galleryTemplates(data));
+    });
+  } else {
+    alert('нет фильмов к просмотру');
+  }
+}
 
 function home(evt) {
   evt.preventDefault();
