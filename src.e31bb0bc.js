@@ -2301,13 +2301,31 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const templateFunction = _handlebars.default.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
-    return "<div class='header-button-wrapper'>\r\n  <ul class='header-button-list list'>\r\n    <li class='header-button-item item'>\r\n      <button class='button button-header'>Watched</button>\r\n    </li>\r\n    <li class='header-button-item item'>\r\n      <button class='button button-header'>queue</button>\r\n    </li>\r\n  </ul>\r\n</div>";
+    return "<div class='header-button-wrapper'>\r\n  <ul class='header-button-list list'>\r\n    <li class='header-button-item item'>\r\n      <button\r\n        class='button button-header button-header-watched-js'\r\n      >Watched</button>\r\n    </li>\r\n    <li class='header-button-item item'>\r\n      <button class='button button-header button-header-queue-js'>queue</button>\r\n    </li>\r\n  </ul>\r\n</div>";
   },
   "useData": true
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/header.js":[function(require,module,exports) {
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/local-storage.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getLocalStorage = getLocalStorage;
+exports.setLocalStorage = setLocalStorage;
+function setLocalStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+function getLocalStorage(key) {
+  const value = localStorage.getItem(key);
+  if (!value) {
+    return null;
+  }
+  return JSON.parse(value);
+}
+},{}],"js/header.js":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -2315,6 +2333,7 @@ var _newsService = _interopRequireDefault(require("./news-service"));
 var _appenFilmMarkup = _interopRequireDefault(require("../templates/appenFilmMarkup.hbs"));
 var _headerHome = _interopRequireDefault(require("../templates/header-home.hbs"));
 var _headerLibrary = _interopRequireDefault(require("../templates/header-library.hbs"));
+var _localStorage = require("./local-storage");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const apiService = new _newsService.default();
 const refs = {
@@ -2323,7 +2342,9 @@ const refs = {
   homeLink: document.querySelector('.link-home-js'),
   headerContent: document.querySelector('.header-content'),
   input: document.querySelector('#header-input'),
-  galery: document.querySelector('.gallery-list')
+  galery: document.querySelector('.gallery-list'),
+  buttonHeaderWatched: document.querySelector('.button-header-watched-js'),
+  buttonHeaderQueue: document.querySelector('.button-header-queue-js')
 };
 refs.libraryLink.addEventListener('click', myLibrary);
 refs.homeLink.addEventListener('click', home);
@@ -2379,6 +2400,56 @@ function myLibrary(evt) {
   refs.libraryLink.classList.add('active');
   refs.homeLink.classList.remove('active');
   refs.header.classList.add('library');
+  addLibraryButtonsListeners();
+}
+function addLibraryButtonsListeners() {
+  refs.buttonHeaderQueue = document.querySelector('.button-header-queue-js');
+  refs.buttonHeaderWatched = document.querySelector('.button-header-watched-js');
+  refs.buttonHeaderQueue.classList.add('active');
+  refs.buttonHeaderQueue.addEventListener('click', renderQueueList);
+  refs.buttonHeaderWatched.addEventListener('click', renderWathedList);
+  refs.galery.innerHTML = '';
+  renderQueueList();
+}
+function renderWathedList() {
+  // 1. Снять класс актив с кнопки Кью и повесить на Вотчед
+  refs.buttonHeaderWatched.classList.add('active');
+  refs.buttonHeaderQueue.classList.remove('active');
+  // 2. Получить список вотчед из локалсторадж
+  const watched = (0, _localStorage.getLocalStorage)('watched');
+  // 3. Сделать иф если вотчед есть делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
+  if (watched && watched.length) {
+    const movieArr = watched.map(id => {
+      return apiService.getFilmById(id);
+    });
+    Promise.all(movieArr).then(data => {
+      // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
+      refs.galery.innerHTML = '';
+      refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
+    });
+  } else {
+    alert('нет просмотренных фильмов');
+  }
+}
+function renderQueueList() {
+  // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
+  refs.buttonHeaderWatched.classList.remove('active');
+  refs.buttonHeaderQueue.classList.add('active');
+  // 2. Получить список кью из локалсторадж
+  const queue = (0, _localStorage.getLocalStorage)('queue');
+  // 3. Сделать иф если кью делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
+  if (queue && queue.length) {
+    const movieArr = queue.map(id => {
+      return apiService.getFilmById(id);
+    });
+    // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
+    Promise.all(movieArr).then(data => {
+      refs.galery.innerHTML = '';
+      refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
+    });
+  } else {
+    alert('нет фильмов к просмотру');
+  }
 }
 function home(evt) {
   evt.preventDefault();
@@ -2388,7 +2459,7 @@ function home(evt) {
   refs.libraryLink.classList.remove('active');
   refs.homeLink.classList.add('active');
 }
-},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs"}],"templates/modal.hbs":[function(require,module,exports) {
+},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs","./local-storage":"js/local-storage.js"}],"templates/modal.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2563,25 +2634,7 @@ const templateFunction = _handlebars.default.template({
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/local-storage.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getLocalStorage = getLocalStorage;
-exports.setLocalStorage = setLocalStorage;
-function setLocalStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-function getLocalStorage(key) {
-  const value = localStorage.getItem(key);
-  if (!value) {
-    return null;
-  }
-  return JSON.parse(value);
-}
-},{}],"js/modal-card.js":[function(require,module,exports) {
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"js/modal-card.js":[function(require,module,exports) {
 "use strict";
 
 var _newsService = _interopRequireDefault(require("./news-service"));
@@ -2730,12 +2783,45 @@ function removeFromLocalStorage(key, array, button) {
   button.classList.remove('active');
   button.blur();
 }
-},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
+},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"js/io.js":[function(require,module,exports) {
+"use strict";
+
+var _newsService = _interopRequireDefault(require("./news-service"));
+var _appenFilmMarkup = _interopRequireDefault(require("../templates/appenFilmMarkup.hbs"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const refs = {
+  sentinel: document.querySelector('#sentinel'),
+  galery: document.querySelector('.gallery-list')
+};
+const apiService = new _newsService.default();
+const onEntry = entries => {
+  entries.forEach(entry => {
+    //если entry пересекает порт, делаем новый запрос за фильмами ////
+    if (entry.isIntersecting) {
+      console.log('пора грузить еще фильмы');
+      apiService.fetchArticles().then(data => {
+        addListTemplates(data);
+        apiService.incrementPage();
+      });
+    }
+  });
+};
+const options = {
+  rootMargin: '500px'
+};
+///////регистрируем IntersectionObserver////////
+const observer = new IntersectionObserver(onEntry, options);
+observer.observe(refs.sentinel);
+function addListTemplates(results) {
+  refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
+}
+},{"./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("./js/header");
 require("./js/modal-card");
-},{"./js/header":"js/header.js","./js/modal-card":"js/modal-card.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+require("./js/io");
+},{"./js/header":"js/header.js","./js/modal-card":"js/modal-card.js","./js/io":"js/io.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2760,7 +2846,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62015" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51713" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
