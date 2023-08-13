@@ -4,19 +4,12 @@ import galleryTemplates from '../templates/appenFilmMarkup.hbs';
 import homeTemplate from '../templates/header-home.hbs';
 import libraryTemplate from '../templates/header-library.hbs';
 import { getLocalStorage } from './local-storage';
+import { observer } from './io';
+import { refs } from './refs-header';
 
-const apiService = new NewApiService();
+export const apiService = new NewApiService();
 
-const refs = {
-  header: document.querySelector('.header'),
-  libraryLink: document.querySelector('.link-library-js'),
-  homeLink: document.querySelector('.link-home-js'),
-  headerContent: document.querySelector('.header-content'),
-  input: document.querySelector('#header-input'),
-  galery: document.querySelector('.gallery-list'),
-  buttonHeaderWatched: document.querySelector('.button-header-watched-js'),
-  buttonHeaderQueue: document.querySelector('.button-header-queue-js'),
-};
+console.log(refs);
 
 refs.libraryLink.addEventListener('click', myLibrary);
 refs.homeLink.addEventListener('click', home);
@@ -35,10 +28,11 @@ initializeHeader();
 function fetchTrending() {
   apiService.fetchArticles().then(data => {
     addListTemplates(data);
+    observer.observe(refs.sentinel);
   });
 }
 
-// ========= если инпут пустая строка =>галерея пустая и выходим =========
+// ========= если инпут пустая строка =>очищаем галерею и выходим =========
 function filmName(e) {
   if (e.target.value.trim() === '') {
     refs.galery.innerHTML = '';
@@ -62,7 +56,7 @@ function filmName(e) {
 }
 
 // добавляем разметку галлереи по шаблону//
-function addListTemplates(results) {
+export function addListTemplates(results) {
   refs.galery.insertAdjacentHTML('beforeend', galleryTemplates(results));
 }
 
@@ -75,6 +69,8 @@ function myLibrary(evt) {
   refs.homeLink.classList.remove('active');
   refs.header.classList.add('library');
   addLibraryButtonsListeners();
+  apiService.resetPage();
+  observer.disconnect();
 }
 
 function addLibraryButtonsListeners() {
@@ -139,4 +135,5 @@ function home(evt) {
   refs.header.classList.remove('library');
   refs.libraryLink.classList.remove('active');
   refs.homeLink.classList.add('active');
+  refs.galery.innerHTML = '';
 }
