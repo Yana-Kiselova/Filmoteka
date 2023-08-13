@@ -2470,7 +2470,7 @@ function myLibrary(evt) {
 function addLibraryButtonsListeners() {
   _refsHeader.refs.buttonHeaderQueue = document.querySelector('.button-header-queue-js');
   _refsHeader.refs.buttonHeaderWatched = document.querySelector('.button-header-watched-js');
-  _refsHeader.refs.buttonHeaderQueue.classList.add('active');
+  _refsHeader.refs.buttonHeaderQueue.classList.add('button-active');
   _refsHeader.refs.buttonHeaderQueue.addEventListener('click', renderQueueList);
   _refsHeader.refs.buttonHeaderWatched.addEventListener('click', renderWathedList);
   _refsHeader.refs.galery.innerHTML = '';
@@ -2478,8 +2478,8 @@ function addLibraryButtonsListeners() {
 }
 function renderWathedList() {
   // 1. Снять класс актив с кнопки Кью и повесить на Вотчед
-  _refsHeader.refs.buttonHeaderWatched.classList.add('active');
-  _refsHeader.refs.buttonHeaderQueue.classList.remove('active');
+  _refsHeader.refs.buttonHeaderWatched.classList.add('button-active');
+  _refsHeader.refs.buttonHeaderQueue.classList.remove('button-active');
   // 2. Получить список вотчед из локалсторадж
   const watched = (0, _localStorage.getLocalStorage)('watched');
   // 3. Сделать иф если вотчед есть делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
@@ -2498,8 +2498,8 @@ function renderWathedList() {
 }
 function renderQueueList() {
   // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
-  _refsHeader.refs.buttonHeaderWatched.classList.remove('active');
-  _refsHeader.refs.buttonHeaderQueue.classList.add('active');
+  _refsHeader.refs.buttonHeaderWatched.classList.remove('button-active');
+  _refsHeader.refs.buttonHeaderQueue.classList.add('button-active');
   // 2. Получить список кью из локалсторадж
   const queue = (0, _localStorage.getLocalStorage)('queue');
   // 3. Сделать иф если кью делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
@@ -2588,21 +2588,21 @@ const templateFunction = _handlebars.default.template({
         }
         return undefined;
       };
-    return "        <li class='list'><span class='card-text-black'>" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+    return "                <span class='card-text-genres'>" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
       "name": "name",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 35,
-          "column": 55
+          "line": 45,
+          "column": 47
         },
         "end": {
-          "line": 35,
-          "column": 63
+          "line": 45,
+          "column": 55
         }
       }
-    }) : helper)) + "</span></li>\r\n\r\n";
+    }) : helper)) + "</span>\r\n";
   },
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
@@ -2648,22 +2648,8 @@ const templateFunction = _handlebars.default.template({
           "column": 36
         }
       }
-    }) : helper)) + "</h1>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Vote / Votes</span>\r\n      <span class='vote-average'>" + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</h1>\r\n    <ul class='list'>\r\n      <li class='item'>\r\n        <p class='card-text'>\r\n          <span class='card-text-grey'>Vote / Votes</span>\r\n          <span class='vote-average'>" + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "vote_average",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 21,
-          "column": 33
-        },
-        "end": {
-          "line": 21,
-          "column": 49
-        }
-      }
-    }) : helper)) + " </span>\r\n      /\r\n      <span class='card-text-black'> " + alias4((helper = (helper = lookupProperty(helpers, "vote_count") || (depth0 != null ? lookupProperty(depth0, "vote_count") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "vote_count",
       "hash": {},
       "data": data,
       "loc": {
@@ -2673,38 +2659,52 @@ const templateFunction = _handlebars.default.template({
         },
         "end": {
           "line": 23,
-          "column": 51
+          "column": 53
         }
       }
-    }) : helper)) + "</span></p>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Popularity</span>\r\n      <span class='card-text-black'>" + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + " </span>\r\n          /\r\n          <span class='card-text-black'> " + alias4((helper = (helper = lookupProperty(helpers, "vote_count") || (depth0 != null ? lookupProperty(depth0, "vote_count") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "vote_count",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 25,
+          "column": 41
+        },
+        "end": {
+          "line": 25,
+          "column": 55
+        }
+      }
+    }) : helper)) + "</span></p>\r\n      </li>\r\n      <li class='item'>\r\n        <p class='card-text'>\r\n          <span class='card-text-grey'>Popularity</span>\r\n          <span class='card-text-black'>" + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "popularity",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 26,
-          "column": 36
-        },
-        "end": {
-          "line": 26,
-          "column": 50
-        }
-      }
-    }) : helper)) + "</span>\r\n    </p>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Original Title</span>\r\n      <span class='card-text-black'>" + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "original_title",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
           "line": 30,
-          "column": 36
+          "column": 40
         },
         "end": {
           "line": 30,
           "column": 54
         }
       }
-    }) : helper)) + "</span>\r\n    </p>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Genres</span>\r\n" + ((stack1 = lookupProperty(helpers, "each").call(alias1, depth0 != null ? lookupProperty(depth0, "genres") : depth0, {
+    }) : helper)) + "</span>\r\n        </p>\r\n      </li>\r\n      <li class='item'>\r\n        <p class='card-text'>\r\n          <span class='card-text-grey'>Original Title</span>\r\n          <span class='card-text-black'>" + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "original_title",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 36,
+          "column": 40
+        },
+        "end": {
+          "line": 36,
+          "column": 58
+        }
+      }
+    }) : helper)) + "</span>\r\n        </p>\r\n      </li>\r\n      <li class='item item-genres'>\r\n        <p class='card-text'>\r\n          <span class='card-text-grey'>Genres</span>\r\n          <ul class='list'>\r\n            <li class='item item-genres-text'>\r\n" + ((stack1 = lookupProperty(helpers, "each").call(alias1, depth0 != null ? lookupProperty(depth0, "genres") : depth0, {
       "name": "each",
       "hash": {},
       "fn": container.program(5, data, 0),
@@ -2712,25 +2712,25 @@ const templateFunction = _handlebars.default.template({
       "data": data,
       "loc": {
         "start": {
-          "line": 34,
-          "column": 6
+          "line": 44,
+          "column": 14
         },
         "end": {
-          "line": 37,
-          "column": 15
+          "line": 46,
+          "column": 23
         }
       }
-    })) != null ? stack1 : "") + "    </p>\r\n    <p class='card-about'>About</p>\r\n    <p class='card-about-description'> " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    })) != null ? stack1 : "") + "            </li>\r\n          </ul>\r\n        </p>\r\n      </li>\r\n    </ul>\r\n    <p class='card-about'>About</p>\r\n    <p class='card-about-description'> " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "overview",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 40,
+          "line": 53,
           "column": 39
         },
         "end": {
-          "line": 40,
+          "line": 53,
           "column": 51
         }
       }
@@ -2803,11 +2803,11 @@ function setButtonsListeners() {
 function checkLocalStorage() {
   const watched = (0, _localStorage.getLocalStorage)('watched');
   if (watched && watched.includes(movieId)) {
-    refs.buttonWatched.classList.add('active');
+    refs.buttonWatched.classList.add('button-active');
   }
   const queue = (0, _localStorage.getLocalStorage)('queue');
   if (queue && queue.includes(movieId)) {
-    refs.buttonQueue.classList.add('active');
+    refs.buttonQueue.classList.add('button-active');
   }
 }
 
@@ -2826,7 +2826,7 @@ function addWatched(evt) {
     watched.push(movieId);
     (0, _localStorage.setLocalStorage)('watched', watched);
     // ======== вешаем класс active на кпопку buttonWatched ========
-    refs.buttonWatched.classList.add('active');
+    refs.buttonWatched.classList.add('button-active');
   } else {
     // ======== создаем новый массив и записываем фильм в watched в localStorage ========
     addToLocalStorage('watched');
@@ -2850,7 +2850,7 @@ function addQueue(evt) {
     queue.push(movieId);
     (0, _localStorage.setLocalStorage)('queue', queue);
     // ======== вешаем класс active на кпопку buttonQueue ========
-    refs.buttonQueue.classList.add('active');
+    refs.buttonQueue.classList.add('button-active');
   } else {
     // ======== создаем новый массив и записываем фильм в queue в localStorage ========
     addToLocalStorage('queue');
@@ -2886,7 +2886,7 @@ function addToLocalStorage(key) {
 function removeFromLocalStorage(key, array, button) {
   const newArr = array.filter(id => id !== movieId);
   (0, _localStorage.setLocalStorage)(key, newArr);
-  button.classList.remove('active');
+  button.classList.remove('button-active');
   button.blur();
 }
 },{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
@@ -2920,7 +2920,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50048" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61749" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
