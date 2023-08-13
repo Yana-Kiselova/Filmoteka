@@ -2165,21 +2165,35 @@ const templateFunction = _handlebars.default.template({
           "column": 41
         }
       }
-    }) : helper)) + "</h2>\r\n      <p class='gallery-text'> " + alias4((helper = (helper = lookupProperty(helpers, "release_date") || (depth0 != null ? lookupProperty(depth0, "release_date") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</h2>\r\n      <p class='gallery-text'>\r\n        " + alias4((helper = (helper = lookupProperty(helpers, "release_date") || (depth0 != null ? lookupProperty(depth0, "release_date") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "release_date",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 22,
-          "column": 31
+          "line": 23,
+          "column": 8
         },
         "end": {
-          "line": 22,
-          "column": 47
+          "line": 23,
+          "column": 24
         }
       }
-    }) : helper)) + "</p>\r\n    </div>\r\n  </li>\r\n\r\n";
+    }) : helper)) + "\r\n        |\r\n        <span class='vote-average'>" + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "vote_average",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 25,
+          "column": 35
+        },
+        "end": {
+          "line": 25,
+          "column": 51
+        }
+      }
+    }) : helper)) + "</span>\r\n      </p>\r\n\r\n    </div>\r\n  </li>\r\n\r\n";
   },
   "2": function (container, depth0, helpers, partials, data) {
     var helper,
@@ -2261,7 +2275,7 @@ const templateFunction = _handlebars.default.template({
           "column": 0
         },
         "end": {
-          "line": 26,
+          "line": 31,
           "column": 9
         }
       }
@@ -2283,7 +2297,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const templateFunction = _handlebars.default.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
-    return "<div class='header-input-wrapper'>\r\n  <label class='header-input-label' for=''>\r\n    <input\r\n      id='header-input'\r\n      class='header-input'\r\n      type='text'\r\n      placeholder='Поиск фильмов'\r\n    />\r\n    <svg class='header-input-icon'>\r\n      <use href='./images/sprait/symbol-defs.svg#icon-search-2'></use>\r\n    </svg>\r\n  </label>\r\n</div>";
+    return "<div class='header-input-wrapper'>\r\n  <label class='header-input-label' for=''>\r\n    <input\r\n      id='header-input'\r\n      class='header-input'\r\n      type='text'\r\n      placeholder='Поиск фильмов'\r\n      autocomplete='off'\r\n    />\r\n    <svg class='header-input-icon'>\r\n      <use href='./images/sprait/symbol-defs.svg#icon-search-2'></use>\r\n    </svg>\r\n  </label>\r\n</div>";
   },
   "useData": true
 });
@@ -2325,17 +2339,43 @@ function getLocalStorage(key) {
   }
   return JSON.parse(value);
 }
-},{}],"js/header.js":[function(require,module,exports) {
+},{}],"js/io.js":[function(require,module,exports) {
 "use strict";
 
-var _lodash = _interopRequireDefault(require("lodash.debounce"));
-var _newsService = _interopRequireDefault(require("./news-service"));
-var _appenFilmMarkup = _interopRequireDefault(require("../templates/appenFilmMarkup.hbs"));
-var _headerHome = _interopRequireDefault(require("../templates/header-home.hbs"));
-var _headerLibrary = _interopRequireDefault(require("../templates/header-library.hbs"));
-var _localStorage = require("./local-storage");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const apiService = new _newsService.default();
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.observer = void 0;
+var _header = require("./header");
+const onEntry = entries => {
+  entries.forEach(entry => {
+    //если entry пересекает порт, делаем новый запрос за фильмами ////
+    if (entry.isIntersecting && _header.apiService.searchQuery.trim() === '' && _header.apiService.page > 1) {
+      _header.apiService.fetchArticles().then(data => {
+        (0, _header.addListTemplates)(data);
+      });
+    }
+    if (entry.isIntersecting && _header.apiService.searchQuery.trim() !== '' && _header.apiService.page > 1) {
+      _header.apiService.filmRequest().then(data => {
+        (0, _header.addListTemplates)(data);
+      });
+    }
+  });
+};
+const options = {
+  rootMargin: '600px'
+};
+
+///////регистрируем IntersectionObserver////////
+const observer = new IntersectionObserver(onEntry, options);
+exports.observer = observer;
+},{"./header":"js/header.js"}],"js/refs-header.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.refs = void 0;
 const refs = {
   header: document.querySelector('.header'),
   libraryLink: document.querySelector('.link-library-js'),
@@ -2344,14 +2384,36 @@ const refs = {
   input: document.querySelector('#header-input'),
   galery: document.querySelector('.gallery-list'),
   buttonHeaderWatched: document.querySelector('.button-header-watched-js'),
-  buttonHeaderQueue: document.querySelector('.button-header-queue-js')
+  buttonHeaderQueue: document.querySelector('.button-header-queue-js'),
+  sentinel: document.querySelector('#sentinel')
 };
-refs.libraryLink.addEventListener('click', myLibrary);
-refs.homeLink.addEventListener('click', home);
+exports.refs = refs;
+},{}],"js/header.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.addListTemplates = addListTemplates;
+exports.apiService = void 0;
+var _lodash = _interopRequireDefault(require("lodash.debounce"));
+var _newsService = _interopRequireDefault(require("./news-service"));
+var _appenFilmMarkup = _interopRequireDefault(require("../templates/appenFilmMarkup.hbs"));
+var _headerHome = _interopRequireDefault(require("../templates/header-home.hbs"));
+var _headerLibrary = _interopRequireDefault(require("../templates/header-library.hbs"));
+var _localStorage = require("./local-storage");
+var _io = require("./io");
+var _refsHeader = require("./refs-header");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const apiService = new _newsService.default();
+exports.apiService = apiService;
+console.log(_refsHeader.refs);
+_refsHeader.refs.libraryLink.addEventListener('click', myLibrary);
+_refsHeader.refs.homeLink.addEventListener('click', home);
 function initializeHeader() {
-  refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerHome.default)());
-  refs.input = document.querySelector('#header-input');
-  refs.input.addEventListener('input', (0, _lodash.default)(filmName, 1000));
+  _refsHeader.refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerHome.default)());
+  _refsHeader.refs.input = document.querySelector('#header-input');
+  _refsHeader.refs.input.addEventListener('input', (0, _lodash.default)(filmName, 1000));
   apiService.setSearchQuery('');
   fetchTrending();
 }
@@ -2362,13 +2424,14 @@ initializeHeader();
 function fetchTrending() {
   apiService.fetchArticles().then(data => {
     addListTemplates(data);
+    _io.observer.observe(_refsHeader.refs.sentinel);
   });
 }
 
-// ========= если инпут пустая строка =>галерея пустая и выходим =========
+// ========= если инпут пустая строка =>очищаем галерею и выходим =========
 function filmName(e) {
   if (e.target.value.trim() === '') {
-    refs.galery.innerHTML = '';
+    _refsHeader.refs.galery.innerHTML = '';
     apiService.setSearchQuery('');
     apiService.resetPage();
     fetchTrending();
@@ -2383,38 +2446,40 @@ function filmName(e) {
     if (data.length === 0) {
       return alert('проверте правильность ввода');
     }
-    refs.galery.innerHTML = '';
+    _refsHeader.refs.galery.innerHTML = '';
     addListTemplates(data);
   });
 }
 
 // добавляем разметку галлереи по шаблону//
 function addListTemplates(results) {
-  refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
+  _refsHeader.refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
 }
 function myLibrary(evt) {
   evt.preventDefault();
-  refs.input.removeEventListener('input', (0, _lodash.default)(filmName, 1000));
-  refs.headerContent.innerHTML = '';
-  refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerLibrary.default)());
-  refs.libraryLink.classList.add('active');
-  refs.homeLink.classList.remove('active');
-  refs.header.classList.add('library');
+  _refsHeader.refs.input.removeEventListener('input', (0, _lodash.default)(filmName, 1000));
+  _refsHeader.refs.headerContent.innerHTML = '';
+  _refsHeader.refs.headerContent.insertAdjacentHTML('beforeend', (0, _headerLibrary.default)());
+  _refsHeader.refs.libraryLink.classList.add('active');
+  _refsHeader.refs.homeLink.classList.remove('active');
+  _refsHeader.refs.header.classList.add('library');
   addLibraryButtonsListeners();
+  apiService.resetPage();
+  _io.observer.disconnect();
 }
 function addLibraryButtonsListeners() {
-  refs.buttonHeaderQueue = document.querySelector('.button-header-queue-js');
-  refs.buttonHeaderWatched = document.querySelector('.button-header-watched-js');
-  refs.buttonHeaderQueue.classList.add('active');
-  refs.buttonHeaderQueue.addEventListener('click', renderQueueList);
-  refs.buttonHeaderWatched.addEventListener('click', renderWathedList);
-  refs.galery.innerHTML = '';
+  _refsHeader.refs.buttonHeaderQueue = document.querySelector('.button-header-queue-js');
+  _refsHeader.refs.buttonHeaderWatched = document.querySelector('.button-header-watched-js');
+  _refsHeader.refs.buttonHeaderQueue.classList.add('active');
+  _refsHeader.refs.buttonHeaderQueue.addEventListener('click', renderQueueList);
+  _refsHeader.refs.buttonHeaderWatched.addEventListener('click', renderWathedList);
+  _refsHeader.refs.galery.innerHTML = '';
   renderQueueList();
 }
 function renderWathedList() {
   // 1. Снять класс актив с кнопки Кью и повесить на Вотчед
-  refs.buttonHeaderWatched.classList.add('active');
-  refs.buttonHeaderQueue.classList.remove('active');
+  _refsHeader.refs.buttonHeaderWatched.classList.add('active');
+  _refsHeader.refs.buttonHeaderQueue.classList.remove('active');
   // 2. Получить список вотчед из локалсторадж
   const watched = (0, _localStorage.getLocalStorage)('watched');
   // 3. Сделать иф если вотчед есть делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
@@ -2424,8 +2489,8 @@ function renderWathedList() {
     });
     Promise.all(movieArr).then(data => {
       // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
-      refs.galery.innerHTML = '';
-      refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
+      _refsHeader.refs.galery.innerHTML = '';
+      _refsHeader.refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
     });
   } else {
     alert('нет просмотренных фильмов');
@@ -2433,8 +2498,8 @@ function renderWathedList() {
 }
 function renderQueueList() {
   // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
-  refs.buttonHeaderWatched.classList.remove('active');
-  refs.buttonHeaderQueue.classList.add('active');
+  _refsHeader.refs.buttonHeaderWatched.classList.remove('active');
+  _refsHeader.refs.buttonHeaderQueue.classList.add('active');
   // 2. Получить список кью из локалсторадж
   const queue = (0, _localStorage.getLocalStorage)('queue');
   // 3. Сделать иф если кью делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
@@ -2444,8 +2509,8 @@ function renderQueueList() {
     });
     // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
     Promise.all(movieArr).then(data => {
-      refs.galery.innerHTML = '';
-      refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
+      _refsHeader.refs.galery.innerHTML = '';
+      _refsHeader.refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
     });
   } else {
     alert('нет фильмов к просмотру');
@@ -2453,13 +2518,14 @@ function renderQueueList() {
 }
 function home(evt) {
   evt.preventDefault();
-  refs.headerContent.innerHTML = '';
+  _refsHeader.refs.headerContent.innerHTML = '';
   initializeHeader();
-  refs.header.classList.remove('library');
-  refs.libraryLink.classList.remove('active');
-  refs.homeLink.classList.add('active');
+  _refsHeader.refs.header.classList.remove('library');
+  _refsHeader.refs.libraryLink.classList.remove('active');
+  _refsHeader.refs.homeLink.classList.add('active');
+  _refsHeader.refs.galery.innerHTML = '';
 }
-},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs","./local-storage":"js/local-storage.js"}],"templates/modal.hbs":[function(require,module,exports) {
+},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs","./local-storage":"js/local-storage.js","./io":"js/io.js","./refs-header":"js/refs-header.js"}],"templates/modal.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2514,6 +2580,30 @@ const templateFunction = _handlebars.default.template({
   "3": function (container, depth0, helpers, partials, data) {
     return "      <img\r\n        src='https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg'\r\n        class='modal-img'\r\n      />\r\n";
   },
+  "5": function (container, depth0, helpers, partials, data) {
+    var helper,
+      lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined;
+      };
+    return "        <li class='list'><span class='card-text-black'>" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+      "name": "name",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 35,
+          "column": 55
+        },
+        "end": {
+          "line": 35,
+          "column": 63
+        }
+      }
+    }) : helper)) + "</span></li>\r\n\r\n";
+  },
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
     var stack1,
@@ -2558,73 +2648,89 @@ const templateFunction = _handlebars.default.template({
           "column": 36
         }
       }
-    }) : helper)) + "</h1>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Vote / Votes</span>" + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</h1>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Vote / Votes</span>\r\n      <span class='vote-average'>" + alias4((helper = (helper = lookupProperty(helpers, "vote_average") || (depth0 != null ? lookupProperty(depth0, "vote_average") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "vote_average",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 20,
-          "column": 54
+          "line": 21,
+          "column": 33
         },
         "end": {
-          "line": 20,
-          "column": 70
+          "line": 21,
+          "column": 49
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-text'><span class='card-text-grey'>Popularity</span>\r\n      " + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + " </span>\r\n      /\r\n      <span class='card-text-black'> " + alias4((helper = (helper = lookupProperty(helpers, "vote_count") || (depth0 != null ? lookupProperty(depth0, "vote_count") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+      "name": "vote_count",
+      "hash": {},
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 23,
+          "column": 37
+        },
+        "end": {
+          "line": 23,
+          "column": 51
+        }
+      }
+    }) : helper)) + "</span></p>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Popularity</span>\r\n      <span class='card-text-black'>" + alias4((helper = (helper = lookupProperty(helpers, "popularity") || (depth0 != null ? lookupProperty(depth0, "popularity") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "popularity",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 22,
-          "column": 6
+          "line": 26,
+          "column": 36
         },
         "end": {
-          "line": 22,
-          "column": 20
+          "line": 26,
+          "column": 50
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-text'><span class='card-text-grey'>Original Title\r\n      </span>" + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    }) : helper)) + "</span>\r\n    </p>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Original Title</span>\r\n      <span class='card-text-black'>" + alias4((helper = (helper = lookupProperty(helpers, "original_title") || (depth0 != null ? lookupProperty(depth0, "original_title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "original_title",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 24,
-          "column": 13
+          "line": 30,
+          "column": 36
         },
         "end": {
-          "line": 24,
-          "column": 31
+          "line": 30,
+          "column": 54
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-text'><span class='card-text-grey'>\r\n        Genre\r\n      </span>" + alias4((helper = (helper = lookupProperty(helpers, "genre_ids") || (depth0 != null ? lookupProperty(depth0, "genre_ids") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
-      "name": "genre_ids",
+    }) : helper)) + "</span>\r\n    </p>\r\n    <p class='card-text'>\r\n      <span class='card-text-grey'>Genres</span>\r\n" + ((stack1 = lookupProperty(helpers, "each").call(alias1, depth0 != null ? lookupProperty(depth0, "genres") : depth0, {
+      "name": "each",
       "hash": {},
+      "fn": container.program(5, data, 0),
+      "inverse": container.noop,
       "data": data,
       "loc": {
         "start": {
-          "line": 27,
-          "column": 13
+          "line": 34,
+          "column": 6
         },
         "end": {
-          "line": 27,
-          "column": 26
+          "line": 37,
+          "column": 15
         }
       }
-    }) : helper)) + "</p>\r\n    <p class='card-about'>About</p>\r\n    <p class='card-about-description'> " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
+    })) != null ? stack1 : "") + "    </p>\r\n    <p class='card-about'>About</p>\r\n    <p class='card-about-description'> " + alias4((helper = (helper = lookupProperty(helpers, "overview") || (depth0 != null ? lookupProperty(depth0, "overview") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "overview",
       "hash": {},
       "data": data,
       "loc": {
         "start": {
-          "line": 29,
+          "line": 40,
           "column": 39
         },
         "end": {
-          "line": 29,
+          "line": 40,
           "column": 51
         }
       }
@@ -2783,39 +2889,7 @@ function removeFromLocalStorage(key, array, button) {
   button.classList.remove('active');
   button.blur();
 }
-},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"js/io.js":[function(require,module,exports) {
-"use strict";
-
-var _newsService = _interopRequireDefault(require("./news-service"));
-var _appenFilmMarkup = _interopRequireDefault(require("../templates/appenFilmMarkup.hbs"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-const refs = {
-  sentinel: document.querySelector('#sentinel'),
-  galery: document.querySelector('.gallery-list')
-};
-const apiService = new _newsService.default();
-const onEntry = entries => {
-  entries.forEach(entry => {
-    //если entry пересекает порт, делаем новый запрос за фильмами ////
-    if (entry.isIntersecting) {
-      console.log('пора грузить еще фильмы');
-      apiService.fetchArticles().then(data => {
-        addListTemplates(data);
-        apiService.incrementPage();
-      });
-    }
-  });
-};
-const options = {
-  rootMargin: '500px'
-};
-///////регистрируем IntersectionObserver////////
-const observer = new IntersectionObserver(onEntry, options);
-observer.observe(refs.sentinel);
-function addListTemplates(results) {
-  refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(results));
-}
-},{"./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs"}],"index.js":[function(require,module,exports) {
+},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("./js/header");
@@ -2846,7 +2920,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51713" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50048" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
