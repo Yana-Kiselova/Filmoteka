@@ -2755,7 +2755,8 @@ const refs = {
   buttonModalClose: document.querySelector('.modal-close'),
   modalContent: document.querySelector('.modal-content'),
   buttonWatched: document.querySelector('.button-watched-js'),
-  buttonQueue: document.querySelector('.button-queue-js')
+  buttonQueue: document.querySelector('.button-queue-js'),
+  body: document.querySelector('.body')
 };
 refs.galleryList.addEventListener('click', evt => {
   openModalFilm(evt);
@@ -2769,11 +2770,13 @@ function openModalFilm(evt) {
   getMovieId(evt);
   refs.backdrop.classList.add('is-open');
   refs.buttonModalClose.addEventListener('click', closeModalFilm);
+  refs.body.classList.add('no-scroll');
 }
 function closeModalFilm(evt) {
   refs.backdrop.classList.remove('is-open');
   refs.buttonModalClose.removeEventListener('click', closeModalFilm);
   refs.modalContent.innerHTML = '';
+  refs.body.classList.remove('no-scroll');
 }
 // //////////рендер  модалки////
 function getMovieId(evt) {
@@ -2802,6 +2805,7 @@ function setButtonsListeners() {
 // ======== проверяем фильм в списках и добавляем класс active на кнопку ========
 function checkLocalStorage() {
   const watched = (0, _localStorage.getLocalStorage)('watched');
+  console.log(watched.includes(movieId));
   if (watched && watched.includes(movieId)) {
     refs.buttonWatched.classList.add('button-active');
   }
@@ -2920,7 +2924,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61749" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50903" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
