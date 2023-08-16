@@ -2407,7 +2407,6 @@ var _refsHeader = require("./refs-header");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const apiService = new _newsService.default();
 exports.apiService = apiService;
-console.log(_refsHeader.refs);
 _refsHeader.refs.libraryLink.addEventListener('click', myLibrary);
 _refsHeader.refs.homeLink.addEventListener('click', home);
 function initializeHeader() {
@@ -2771,6 +2770,15 @@ function openModalFilm(evt) {
   refs.backdrop.classList.add('is-open');
   refs.buttonModalClose.addEventListener('click', closeModalFilm);
   refs.body.classList.add('no-scroll');
+  refs.backdrop.addEventListener('click', closeBackdrop);
+}
+///////закрытие модалки при клике на бекдроп//////
+function closeBackdrop(evt) {
+  if (evt.target !== evt.currentTarget) {
+    return;
+  }
+  closeModalFilm();
+  refs.backdrop.removeEventListener('click', closeBackdrop);
 }
 function closeModalFilm(evt) {
   refs.backdrop.classList.remove('is-open');
@@ -2783,7 +2791,6 @@ function getMovieId(evt) {
   movieId = evt.target.getAttribute('data-movie-id');
   // зaрос данных фильма по ID
   apiService.getFilmById(movieId).then(movie => {
-    console.log(movieId, movie);
     refs.modalContent.insertAdjacentHTML('beforeend', (0, _modal.default)(movie));
     setButtonsListeners();
   }).catch(err => {
@@ -2805,7 +2812,6 @@ function setButtonsListeners() {
 // ======== проверяем фильм в списках и добавляем класс active на кнопку ========
 function checkLocalStorage() {
   const watched = (0, _localStorage.getLocalStorage)('watched');
-  console.log(watched.includes(movieId));
   if (watched && watched.includes(movieId)) {
     refs.buttonWatched.classList.add('button-active');
   }
@@ -2924,7 +2930,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55181" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64185" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
