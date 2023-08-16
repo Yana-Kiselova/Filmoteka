@@ -78,7 +78,7 @@ function addLibraryButtonsListeners() {
   refs.buttonHeaderWatched = document.querySelector(
     '.button-header-watched-js'
   );
-  refs.buttonHeaderQueue.classList.add('active');
+  refs.buttonHeaderQueue.classList.add('button-active');
 
   refs.buttonHeaderQueue.addEventListener('click', renderQueueList);
   refs.buttonHeaderWatched.addEventListener('click', renderWathedList);
@@ -88,8 +88,8 @@ function addLibraryButtonsListeners() {
 
 function renderWathedList() {
   // 1. Снять класс актив с кнопки Кью и повесить на Вотчед
-  refs.buttonHeaderWatched.classList.add('active');
-  refs.buttonHeaderQueue.classList.remove('active');
+  refs.buttonHeaderWatched.classList.add('button-active');
+  refs.buttonHeaderQueue.classList.remove('button-active');
   // 2. Получить список вотчед из локалсторадж
   const watched = getLocalStorage('watched');
   // 3. Сделать иф если вотчед есть делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
@@ -109,8 +109,8 @@ function renderWathedList() {
 
 function renderQueueList() {
   // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
-  refs.buttonHeaderWatched.classList.remove('active');
-  refs.buttonHeaderQueue.classList.add('active');
+  refs.buttonHeaderWatched.classList.remove('button-active');
+  refs.buttonHeaderQueue.classList.add('button-active');
   // 2. Получить список кью из локалсторадж
   const queue = getLocalStorage('queue');
   // 3. Сделать иф если кью делаем АПИ запрос по каждому элементу, если нет рендерим заглушку

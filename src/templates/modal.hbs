@@ -16,15 +16,39 @@
   </div>
   <div class='card-content'>
     <h1 class='card-name'> {{title}}</h1>
-    <p class='card-text'>
-      <span class='card-text-grey'>Vote / Votes</span>{{vote_average}}</p>
-    <p class='card-text'><span class='card-text-grey'>Popularity</span>
-      {{popularity}}</p>
-    <p class='card-text'><span class='card-text-grey'>Original Title
-      </span>{{original_title}}</p>
-    <p class='card-text'><span class='card-text-grey'>
-        Genre
-      </span>{{genre_ids}}</p>
+    <ul class='list'>
+      <li class='item'>
+        <p class='card-text'>
+          <span class='card-text-grey'>Vote / Votes</span>
+          <span class='vote-average'>{{vote_average}} </span>
+          /
+          <span class='card-text-black'> {{vote_count}}</span></p>
+      </li>
+      <li class='item'>
+        <p class='card-text'>
+          <span class='card-text-grey'>Popularity</span>
+          <span class='card-text-black'>{{popularity}}</span>
+        </p>
+      </li>
+      <li class='item'>
+        <p class='card-text'>
+          <span class='card-text-grey'>Original Title</span>
+          <span class='card-text-black'>{{original_title}}</span>
+        </p>
+      </li>
+      <li class='item item-genres'>
+        <p class='card-text'>
+          <span class='card-text-grey'>Genres</span>
+          <ul class='list'>
+            <li class='item item-genres-text'>
+              {{#each genres}}
+                <span class='card-text-genres'>{{name}}</span>
+              {{/each}}
+            </li>
+          </ul>
+        </p>
+      </li>
+    </ul>
     <p class='card-about'>About</p>
     <p class='card-about-description'> {{overview}}</p>
     <div class='wrapper-button-modal'>

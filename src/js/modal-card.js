@@ -12,6 +12,7 @@ const refs = {
   modalContent: document.querySelector('.modal-content'),
   buttonWatched: document.querySelector('.button-watched-js'),
   buttonQueue: document.querySelector('.button-queue-js'),
+  body: document.querySelector('.body'),
 };
 
 refs.galleryList.addEventListener('click', evt => {
@@ -26,12 +27,14 @@ function openModalFilm(evt) {
   getMovieId(evt);
   refs.backdrop.classList.add('is-open');
   refs.buttonModalClose.addEventListener('click', closeModalFilm);
+  refs.body.classList.add('no-scroll');
 }
 
 function closeModalFilm(evt) {
   refs.backdrop.classList.remove('is-open');
   refs.buttonModalClose.removeEventListener('click', closeModalFilm);
   refs.modalContent.innerHTML = '';
+  refs.body.classList.remove('no-scroll');
 }
 // //////////рендер  модалки////
 function getMovieId(evt) {
@@ -63,12 +66,13 @@ function setButtonsListeners() {
 // ======== проверяем фильм в списках и добавляем класс active на кнопку ========
 function checkLocalStorage() {
   const watched = getLocalStorage('watched');
+  console.log(watched.includes(movieId));
   if (watched && watched.includes(movieId)) {
-    refs.buttonWatched.classList.add('active');
+    refs.buttonWatched.classList.add('button-active');
   }
   const queue = getLocalStorage('queue');
   if (queue && queue.includes(movieId)) {
-    refs.buttonQueue.classList.add('active');
+    refs.buttonQueue.classList.add('button-active');
   }
 }
 
@@ -87,7 +91,7 @@ function addWatched(evt) {
     watched.push(movieId);
     setLocalStorage('watched', watched);
     // ======== вешаем класс active на кпопку buttonWatched ========
-    refs.buttonWatched.classList.add('active');
+    refs.buttonWatched.classList.add('button-active');
   } else {
     // ======== создаем новый массив и записываем фильм в watched в localStorage ========
     addToLocalStorage('watched');
@@ -111,7 +115,7 @@ function addQueue(evt) {
     queue.push(movieId);
     setLocalStorage('queue', queue);
     // ======== вешаем класс active на кпопку buttonQueue ========
-    refs.buttonQueue.classList.add('active');
+    refs.buttonQueue.classList.add('button-active');
   } else {
     // ======== создаем новый массив и записываем фильм в queue в localStorage ========
     addToLocalStorage('queue');
@@ -147,6 +151,6 @@ function addToLocalStorage(key) {
 function removeFromLocalStorage(key, array, button) {
   const newArr = array.filter(id => id !== movieId);
   setLocalStorage(key, newArr);
-  button.classList.remove('active');
+  button.classList.remove('button-active');
   button.blur();
 }

@@ -13,10 +13,8 @@
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
     border-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
     color 250ms cubic-bezier(0.4, 0, 0.2, 1);
-
   &:hover,
-  &:focus,
-  &.active {
+  &:focus {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
   }
@@ -31,9 +29,14 @@
     background-color: #fff;
     border: 1px solid #000;
     &:hover,
-    :focus,
-    &.active {
+    &:focus {
+      color: var(--accent-color);
+      background-color: #fff;
+    }
+    &.button-active {
+      background-color: var(--accent-color);
       color: #fff;
+      border-color: var(--accent-color);
     }
   }
 }
