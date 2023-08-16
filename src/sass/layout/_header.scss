@@ -45,6 +45,7 @@
     color: #fff;
     font-size: 14px;
     font-weight: 400;
+    outline: none;
   }
   &-input::placeholder {
     color: #fff;
@@ -61,11 +62,6 @@
     position: relative;
   }
 }
-// .is-hidden {
-//   opacity: 0;
-//   visibility: hidden;
-//   pointer-events: none;
-// }
 .active::after {
   content: '';
   display: block;
