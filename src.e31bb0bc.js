@@ -2768,23 +2768,39 @@ function openModalFilm(evt) {
   }
   getMovieId(evt);
   refs.backdrop.classList.add('is-open');
-  refs.buttonModalClose.addEventListener('click', closeModalFilm);
   refs.body.classList.add('no-scroll');
-  refs.backdrop.addEventListener('click', closeBackdrop);
+  addModalListeners();
 }
 ///////закрытие модалки при клике на бекдроп//////
 function closeBackdrop(evt) {
-  if (evt.target !== evt.currentTarget) {
-    return;
+  if (evt.target === evt.currentTarget) {
+    closeModalFilm();
   }
-  closeModalFilm();
-  refs.backdrop.removeEventListener('click', closeBackdrop);
 }
+/////////закрытие модалки при нажатии кнопки Esc///////////////
+function closeEsc(evt) {
+  if (evt.key === 'Escape') {
+    closeModalFilm();
+  }
+}
+/////////закрытие модалки при нажатии на крестик///////////////
 function closeModalFilm(evt) {
   refs.backdrop.classList.remove('is-open');
-  refs.buttonModalClose.removeEventListener('click', closeModalFilm);
   refs.modalContent.innerHTML = '';
   refs.body.classList.remove('no-scroll');
+  removeModalListeners();
+}
+/////////добавляем слушатели при открытии модалки///////////////
+function addModalListeners() {
+  refs.buttonModalClose.addEventListener('click', closeModalFilm);
+  refs.backdrop.addEventListener('click', closeBackdrop);
+  refs.body.addEventListener('keyup', closeEsc);
+}
+/////////удаляем слушатели при закрытии модалки///////////////
+function removeModalListeners() {
+  refs.buttonModalClose.removeEventListener('click', closeModalFilm);
+  refs.backdrop.removeEventListener('click', closeBackdrop);
+  refs.body.removeEventListener('keyup', closeEsc);
 }
 // //////////рендер  модалки////
 function getMovieId(evt) {
@@ -2930,7 +2946,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64185" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50341" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

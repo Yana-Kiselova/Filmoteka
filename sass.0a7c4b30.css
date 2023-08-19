@@ -4193,6 +4193,7 @@ img {
 }
 
 .header {
+  position: relative;
   background-color: rgba(0, 0, 0, 0.56);
   background-image: url("/header-mobile.3e21c50a.png");
   background-size: cover;
@@ -4477,12 +4478,13 @@ img {
 @media (min-width: 768px) {
   .button-modal {
     padding: 14px 10px 12px 10px;
-    min-width: 136px;
+    min-width: 125px;
   }
 }
 @media (min-width: 1024px) {
   .button-modal {
     margin-right: 5px;
+    min-width: 136px;
   }
 }
 .backdrop {
@@ -4652,6 +4654,30 @@ img {
   .card-img {
     align-items: center;
   }
+}
+.theme-switch {
+  position: absolute;
+  top: 190px;
+  right: 90px;
+  display: flex;
+  align-items: center;
+}
+.theme-switch-icon {
+  width: 50px;
+  height: 50px;
+  fill: #ffffff;
+}
+.theme-switch-toggle {
+  width: 50%;
+}
+.theme-switch-toggle::after {
+  display: block;
+  content: "";
+  margin: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #ffffff;
 }
 
 /*# sourceMappingURL=/sass.0a7c4b30.css.map */
