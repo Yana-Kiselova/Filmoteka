@@ -9,8 +9,6 @@ import { refs } from './refs-header';
 
 export const apiService = new NewApiService();
 
-console.log(refs);
-
 refs.libraryLink.addEventListener('click', myLibrary);
 refs.homeLink.addEventListener('click', home);
 
