@@ -45,7 +45,7 @@
   .button {
     &-modal {
       padding: 14px 10px 12px 10px;
-      min-width: 136px;
+      min-width: 125px;
     }
   }
 }
@@ -53,6 +53,7 @@
   .button {
     &-modal {
       margin-right: 5px;
+      min-width: 136px;
     }
   }
 }

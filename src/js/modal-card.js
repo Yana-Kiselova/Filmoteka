@@ -26,15 +26,39 @@ function openModalFilm(evt) {
   }
   getMovieId(evt);
   refs.backdrop.classList.add('is-open');
-  refs.buttonModalClose.addEventListener('click', closeModalFilm);
   refs.body.classList.add('no-scroll');
+  addModalListeners();
 }
-
+///////закрытие модалки при клике на бекдроп//////
+function closeBackdrop(evt) {
+  if (evt.target === evt.currentTarget) {
+    closeModalFilm();
+  }
+}
+/////////закрытие модалки при нажатии кнопки Esc///////////////
+function closeEsc(evt) {
+  if (evt.key === 'Escape') {
+    closeModalFilm();
+  }
+}
+/////////закрытие модалки при нажатии на крестик///////////////
 function closeModalFilm(evt) {
   refs.backdrop.classList.remove('is-open');
-  refs.buttonModalClose.removeEventListener('click', closeModalFilm);
   refs.modalContent.innerHTML = '';
   refs.body.classList.remove('no-scroll');
+  removeModalListeners();
+}
+/////////добавляем слушатели при открытии модалки///////////////
+function addModalListeners() {
+  refs.buttonModalClose.addEventListener('click', closeModalFilm);
+  refs.backdrop.addEventListener('click', closeBackdrop);
+  refs.body.addEventListener('keyup', closeEsc);
+}
+/////////удаляем слушатели при закрытии модалки///////////////
+function removeModalListeners() {
+  refs.buttonModalClose.removeEventListener('click', closeModalFilm);
+  refs.backdrop.removeEventListener('click', closeBackdrop);
+  refs.body.removeEventListener('keyup', closeEsc);
 }
 // //////////рендер  модалки////
 function getMovieId(evt) {
@@ -43,7 +67,6 @@ function getMovieId(evt) {
   apiService
     .getFilmById(movieId)
     .then(movie => {
-      console.log(movieId, movie);
       refs.modalContent.insertAdjacentHTML('beforeend', templatesModal(movie));
       setButtonsListeners();
     })
@@ -66,7 +89,6 @@ function setButtonsListeners() {
 // ======== проверяем фильм в списках и добавляем класс active на кнопку ========
 function checkLocalStorage() {
   const watched = getLocalStorage('watched');
-  console.log(watched.includes(movieId));
   if (watched && watched.includes(movieId)) {
     refs.buttonWatched.classList.add('button-active');
   }
