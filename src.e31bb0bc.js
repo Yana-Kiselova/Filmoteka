@@ -2915,13 +2915,28 @@ function removeFromLocalStorage(key, array, button) {
   button.classList.remove('button-active');
   button.blur();
 }
-},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
+},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"js/theme-switch.js":[function(require,module,exports) {
+"use strict";
+
+var _localStorage = require("./local-storage");
+const refs = {
+  body: document.querySelector('.body'),
+  input: document.querySelector('#checkbox')
+};
+// ======== coхранение в localStorage ========
+refs.input.addEventListener('change', themesWitch);
+function themesWitch(evt) {
+  console.log(evt);
+  refs.body.classList.add('dark-theme');
+}
+},{"./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("./js/header");
 require("./js/modal-card");
 require("./js/io");
-},{"./js/header":"js/header.js","./js/modal-card":"js/modal-card.js","./js/io":"js/io.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+require("./js/theme-switch");
+},{"./js/header":"js/header.js","./js/modal-card":"js/modal-card.js","./js/io":"js/io.js","./js/theme-switch":"js/theme-switch.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2946,7 +2961,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50341" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49157" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
