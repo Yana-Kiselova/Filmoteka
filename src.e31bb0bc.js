@@ -2923,11 +2923,36 @@ const refs = {
   body: document.querySelector('.body'),
   input: document.querySelector('#checkbox')
 };
-// ======== coхранение в localStorage ========
 refs.input.addEventListener('change', themesWitch);
+
+// ======== coхранение в localStorage ========
+function checkedTheme() {
+  const theme = (0, _localStorage.getLocalStorage)('theme');
+  if (theme) {
+    if (theme === 'dark') {
+      refs.body.classList.add('dark-theme');
+      refs.body.classList.remove('light-theme');
+      refs.input.checked = true;
+    } else {
+      refs.body.classList.add('light-theme');
+      refs.body.classList.remove('dark-theme');
+      refs.input.checked = false;
+    }
+  } else {
+    refs.body.classList.add('light-theme');
+  }
+}
+checkedTheme();
 function themesWitch(evt) {
-  console.log(evt);
-  refs.body.classList.add('dark-theme');
+  if (evt.target.checked) {
+    refs.body.classList.add('dark-theme');
+    refs.body.classList.remove('light-theme');
+    (0, _localStorage.setLocalStorage)('theme', 'dark');
+  } else {
+    refs.body.classList.remove('dark-theme');
+    refs.body.classList.add('light-theme');
+    (0, _localStorage.setLocalStorage)('theme', 'light');
+  }
 }
 },{"./local-storage":"js/local-storage.js"}],"index.js":[function(require,module,exports) {
 "use strict";
@@ -2961,7 +2986,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49157" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59586" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
