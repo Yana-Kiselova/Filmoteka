@@ -4353,6 +4353,7 @@ img {
 }
 .footer-back-to-top {
   position: absolute;
+  top: 10px;
   right: 20px;
   width: 40px;
   height: 40px;
@@ -4384,6 +4385,11 @@ img {
 
   .footer-subtext {
     margin-top: 0;
+  }
+
+  .footer-back-to-top {
+    top: 15px;
+    right: 50px;
   }
 }
 .gallery-item {
@@ -4706,8 +4712,8 @@ body.dark-theme .footer-text {
 
 .theme-switch {
   position: absolute;
-  top: 190px;
-  right: 90px;
+  top: 173px;
+  right: 15px;
   display: flex;
   align-items: end;
 }
@@ -4755,6 +4761,13 @@ input:checked + .theme-switch-slider {
 
 input:checked + .theme-switch-slider:after {
   transform: translateX(17px);
+}
+
+@media (min-width: 768px) {
+  .theme-switch {
+    top: 200px;
+    right: 68px;
+  }
 }
 
 /*# sourceMappingURL=/sass.0a7c4b30.css.map */
