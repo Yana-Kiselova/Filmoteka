@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "gh-pages": "^5.0.0",
-    "lodash.debounce": "^4.0.8"
+    "lodash.debounce": "^4.0.8",
+    "vanilla-back-to-top": "^7.2.1"
   },
   "devDependencies": {
     "animate.css": "^4.1.1",
