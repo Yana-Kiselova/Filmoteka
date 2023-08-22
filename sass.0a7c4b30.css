@@ -4351,27 +4351,6 @@ img {
   color: #545454;
   text-align: center;
 }
-.footer-back-to-top {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--accent-color);
-}
-.footer-back-to-top-icon {
-  width: 24px;
-  height: 24px;
-  color: #000;
-}
-.footer-back-to-top-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
 
 @media (min-width: 768px) {
   .footer-text {
@@ -4385,11 +4364,6 @@ img {
 
   .footer-subtext {
     margin-top: 0;
-  }
-
-  .footer-back-to-top {
-    top: 15px;
-    right: 50px;
   }
 }
 .gallery-item {
