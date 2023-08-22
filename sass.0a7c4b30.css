@@ -4622,6 +4622,9 @@ img {
     height: 562px;
   }
   .modal-content {
+    height: auto;
+  }
+  .modal-img {
     height: 100%;
   }
 
@@ -4633,6 +4636,7 @@ img {
     display: flex;
     flex-direction: row;
     padding: 41px 30px 41px 30px;
+    height: 100%;
   }
   .card-name {
     margin-top: 0px;
@@ -4645,6 +4649,9 @@ img {
   .modal {
     width: 882px;
     height: 568px;
+  }
+  .modal-content {
+    height: 100%;
   }
 
   .card {
