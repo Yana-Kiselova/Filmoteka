@@ -14,8 +14,9 @@
   width: 100%;
   cursor: pointer;
   background-color: lightgray;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:hover {
-    transform: scale(105%);
+    transform: scale(102%);
     box-shadow: 0px -3px 22px 5px rgba(0, 0, 0, 0.37),
       0px -3px 22px 5px rgba(0, 0, 0, 0.37);
   }
@@ -31,7 +32,6 @@
   font-weight: 500;
   line-height: 1.33;
   text-transform: uppercase;
-  color: #000;
 }
 .gallery-text {
   font-size: 12px;

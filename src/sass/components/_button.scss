@@ -33,11 +33,11 @@
       color: var(--accent-color);
       background-color: #fff;
     }
-    &.button-active {
-      background-color: var(--accent-color);
-      color: #fff;
-      border-color: var(--accent-color);
-    }
+  }
+  &.button-active {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
   }
 }
 
