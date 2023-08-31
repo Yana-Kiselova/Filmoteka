@@ -2321,7 +2321,7 @@ const templateFunction = _handlebars.default.template({
 });
 var _default = templateFunction;
 exports.default = _default;
-},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"templates/empty-Queue-list.hbs":[function(require,module,exports) {
+},{"handlebars/dist/handlebars.runtime":"../node_modules/handlebars/dist/handlebars.runtime.js"}],"templates/empty-queue-list.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2333,7 +2333,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const templateFunction = _handlebars.default.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
-    return "<div class='empty-movie-list'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Qeueu</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the QUEUE yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='#Home'>Home</a>\r\n  </div>\r\n</div>";
+    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Qeueu</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the QUEUE yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='/'>Home</a>\r\n  </div>\r\n</div>";
   },
   "useData": true
 });
@@ -2351,7 +2351,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const templateFunction = _handlebars.default.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
-    return "<div class='empty-movie-list'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Watched</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the WATCHED yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='#Home'>Home</a>\r\n  </div>\r\n</div>";
+    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Watched</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the WATCHED yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='/'>Home</a>\r\n  </div>\r\n</div>";
   },
   "useData": true
 });
@@ -2422,7 +2422,7 @@ const refs = {
   buttonHeaderWatched: document.querySelector('.button-header-watched-js'),
   buttonHeaderQueue: document.querySelector('.button-header-queue-js'),
   sentinel: document.querySelector('#sentinel'),
-  buttonEmpty: document.querySelector('.button-empty')
+  emptyMovieList: document.querySelector('.empty-js')
 };
 exports.refs = refs;
 },{}],"js/header.js":[function(require,module,exports) {
@@ -2440,7 +2440,7 @@ var _newsService = _interopRequireDefault(require("./news-service"));
 var _appenFilmMarkup = _interopRequireDefault(require("../templates/appenFilmMarkup.hbs"));
 var _headerHome = _interopRequireDefault(require("../templates/header-home.hbs"));
 var _headerLibrary = _interopRequireDefault(require("../templates/header-library.hbs"));
-var _emptyQueueList = _interopRequireDefault(require("../templates/empty-Queue-list.hbs"));
+var _emptyQueueList = _interopRequireDefault(require("../templates/empty-queue-list.hbs"));
 var _emptyWatchedList = _interopRequireDefault(require("../templates/empty-watched-list.hbs"));
 var _localStorage = require("./local-storage");
 var _io = require("./io");
@@ -2467,6 +2467,10 @@ function home(evt) {
   _refsHeader.refs.libraryLink.classList.remove('active');
   _refsHeader.refs.homeLink.classList.add('active');
   _refsHeader.refs.galery.innerHTML = '';
+  _refsHeader.refs.emptyMovieList = document.querySelector('.empty-js');
+  if (_refsHeader.refs.emptyMovieList) {
+    _refsHeader.refs.emptyMovieList.remove();
+  }
 }
 /////// рендер популярных фильмов //////
 function fetchTrending() {
@@ -2530,6 +2534,8 @@ function renderWathedList() {
   _refsHeader.refs.buttonHeaderQueue.classList.remove('button-active');
   // 2. Получить список вотчед из локалсторадж
   const watched = (0, _localStorage.getLocalStorage)('watched');
+  _refsHeader.refs.emptyMovieList = document.querySelector('.empty-js');
+
   // 3. Сделать иф если вотчед есть делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
   if (watched && watched.length) {
     const movieArr = watched.map(id => {
@@ -2539,18 +2545,30 @@ function renderWathedList() {
       // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
       _refsHeader.refs.galery.innerHTML = '';
       _refsHeader.refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
+      if (_refsHeader.refs.emptyMovieList) {
+        _refsHeader.refs.emptyMovieList.remove();
+      }
     });
   } else {
     _refsHeader.refs.galery.innerHTML = '';
-    _refsHeader.refs.galery.insertAdjacentHTML('beforeend', (0, _emptyWatchedList.default)());
+    if (_refsHeader.refs.emptyMovieList) {
+      return;
+    }
+    _refsHeader.refs.galery.insertAdjacentHTML('afterend', (0, _emptyWatchedList.default)());
+    // refs.emptyMovieList = document.querySelector('.empty-js');
+    // if (refs.emptyMovieList) {
+    //   refs.emptyMovieList.remove();
+    // }
   }
 }
+
 function renderQueueList() {
   // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
   _refsHeader.refs.buttonHeaderWatched.classList.remove('button-active');
   _refsHeader.refs.buttonHeaderQueue.classList.add('button-active');
   // 2. Получить список кью из локалсторадж
   const queue = (0, _localStorage.getLocalStorage)('queue');
+  _refsHeader.refs.emptyMovieList = document.querySelector('.empty-js');
   // 3. Сделать иф если кью делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
   if (queue && queue.length) {
     const movieArr = queue.map(id => {
@@ -2560,13 +2578,23 @@ function renderQueueList() {
     Promise.all(movieArr).then(data => {
       _refsHeader.refs.galery.innerHTML = '';
       _refsHeader.refs.galery.insertAdjacentHTML('beforeend', (0, _appenFilmMarkup.default)(data));
+      if (_refsHeader.refs.emptyMovieList) {
+        _refsHeader.refs.emptyMovieList.remove();
+      }
     });
   } else {
     _refsHeader.refs.galery.innerHTML = '';
-    _refsHeader.refs.galery.insertAdjacentHTML('beforeend', (0, _emptyQueueList.default)());
+    if (_refsHeader.refs.emptyMovieList) {
+      return;
+    }
+    _refsHeader.refs.galery.insertAdjacentHTML('afterend', (0, _emptyQueueList.default)());
   }
+  // refs.emptyMovieList = document.querySelector('.empty-js');
+  // if (refs.emptyMovieList) {
+  //   refs.emptyMovieList.remove();
+  // }
 }
-},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs","../templates/empty-Queue-list.hbs":"templates/empty-Queue-list.hbs","../templates/empty-watched-list.hbs":"templates/empty-watched-list.hbs","./local-storage":"js/local-storage.js","./io":"js/io.js","./refs-header":"js/refs-header.js"}],"templates/modal.hbs":[function(require,module,exports) {
+},{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs","../templates/empty-queue-list.hbs":"templates/empty-queue-list.hbs","../templates/empty-watched-list.hbs":"templates/empty-watched-list.hbs","./local-storage":"js/local-storage.js","./io":"js/io.js","./refs-header":"js/refs-header.js"}],"templates/modal.hbs":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2901,6 +2929,7 @@ function addWatched(evt) {
   }
   // ======== удаляем фильм в Queue из localStorage, если такой фильм есть ========
   removeFromQueue();
+  console.log(12222222222222222);
 }
 
 // ======== при нажатии на buttonQueue добавляем фильмы в queue ========
@@ -3173,7 +3202,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52240" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51291" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
