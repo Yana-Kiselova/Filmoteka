@@ -2333,7 +2333,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const templateFunction = _handlebars.default.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
-    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Qeueu</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the QUEUE yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='/'>Home</a>\r\n  </div>\r\n</div>";
+    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Queue</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the QUEUE yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='/'>Home</a>\r\n  </div>\r\n</div>";
   },
   "useData": true
 });
@@ -2552,7 +2552,7 @@ function renderWathedList() {
   } else {
     _refsHeader.refs.galery.innerHTML = '';
     if (_refsHeader.refs.emptyMovieList) {
-      return;
+      _refsHeader.refs.emptyMovieList.remove();
     }
     _refsHeader.refs.galery.insertAdjacentHTML('afterend', (0, _emptyWatchedList.default)());
     // refs.emptyMovieList = document.querySelector('.empty-js');
@@ -2585,7 +2585,7 @@ function renderQueueList() {
   } else {
     _refsHeader.refs.galery.innerHTML = '';
     if (_refsHeader.refs.emptyMovieList) {
-      return;
+      _refsHeader.refs.emptyMovieList.remove();
     }
     _refsHeader.refs.galery.insertAdjacentHTML('afterend', (0, _emptyQueueList.default)());
   }
@@ -2815,6 +2815,7 @@ exports.default = _default;
 var _newsService = _interopRequireDefault(require("./news-service"));
 var _modal = _interopRequireDefault(require("../templates/modal.hbs"));
 var _localStorage = require("./local-storage");
+var _header = require("./header");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 const apiService = new _newsService.default();
 let movieId = '';
@@ -2825,7 +2826,9 @@ const refs = {
   modalContent: document.querySelector('.modal-content'),
   buttonWatched: document.querySelector('.button-watched-js'),
   buttonQueue: document.querySelector('.button-queue-js'),
-  body: document.querySelector('.body')
+  body: document.querySelector('.body'),
+  headerButtonQueue: document.querySelector('.button-header-queue-js'),
+  headerButtonWatched: document.querySelector('.button-header-watched-js')
 };
 refs.galleryList.addEventListener('click', evt => {
   openModalFilm(evt);
@@ -2916,6 +2919,16 @@ function addWatched(evt) {
     if (watched.includes(movieId)) {
       // ======== удаляем фильм из watched в locatStorage, если он уже есть ========
       removeFromLocalStorage('watched', watched, refs.buttonWatched);
+      refs.headerButtonQueue = document.querySelector('.button-header-queue-js');
+      if (refs.headerButtonQueue) {
+        if (refs.headerButtonQueue.classList.contains('button-active')) {
+          //TODO: Обновляем гарелерею из либрари Queue
+          (0, _header.renderQueueList)();
+        } else {
+          //TODO: Обновляем гарелерею из либрари Watched
+          (0, _header.renderWathedList)();
+        }
+      }
       return;
     }
     // ======== добавляем фильм в watched в localStorage ========
@@ -2929,7 +2942,16 @@ function addWatched(evt) {
   }
   // ======== удаляем фильм в Queue из localStorage, если такой фильм есть ========
   removeFromQueue();
-  console.log(12222222222222222);
+  refs.headerButtonQueue = document.querySelector('.button-header-queue-js');
+  if (refs.headerButtonQueue) {
+    if (refs.headerButtonQueue.classList.contains('button-active')) {
+      //TODO: Обновляем гарелерею из либрари Queue
+      (0, _header.renderQueueList)();
+    } else {
+      //TODO: Обновляем гарелерею из либрари Watched
+      (0, _header.renderWathedList)();
+    }
+  }
 }
 
 // ======== при нажатии на buttonQueue добавляем фильмы в queue ========
@@ -2937,10 +2959,20 @@ function addQueue(evt) {
   evt.preventDefault();
   // ======== получаем список фильмов queue из localStorage или null ========
   const queue = (0, _localStorage.getLocalStorage)('queue');
+  refs.headerButtonWatched = document.querySelector('.button-header-watched-js');
   if (queue) {
     if (queue.includes(movieId)) {
       // ======== удаляем фильм из queue в locatStorage, если он уже есть ========
       removeFromLocalStorage('queue', queue, refs.buttonQueue);
+      if (refs.headerButtonWatched) {
+        if (refs.headerButtonWatched.classList.contains('button-active')) {
+          //TODO: Обновляем гарелерею из либрари Watched
+          (0, _header.renderWathedList)();
+        } else {
+          //TODO: Обновляем гарелерею из либрари Queue
+          (0, _header.renderQueueList)();
+        }
+      }
       return;
     }
     // ======== добавляем фильм в queue в localStorage ========
@@ -2954,6 +2986,15 @@ function addQueue(evt) {
   }
   // ======== удаляем фильм в Watched из localStorage, если такой фильм есть ========
   removeFromWatched();
+  if (refs.headerButtonWatched) {
+    if (refs.headerButtonWatched.classList.contains('button-active')) {
+      //TODO: Обновляем гарелерею из либрари Watched
+      (0, _header.renderWathedList)();
+    } else {
+      //TODO: Обновляем гарелерею из либрари Queue
+      (0, _header.renderQueueList)();
+    }
+  }
 }
 
 // ======== при нажатии на buttonWatched удаляем фильм в queue ========
@@ -2986,7 +3027,7 @@ function removeFromLocalStorage(key, array, button) {
   button.classList.remove('button-active');
   button.blur();
 }
-},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js"}],"js/theme-switch.js":[function(require,module,exports) {
+},{"./news-service":"js/news-service.js","../templates/modal.hbs":"templates/modal.hbs","./local-storage":"js/local-storage.js","./header":"js/header.js"}],"js/theme-switch.js":[function(require,module,exports) {
 "use strict";
 
 var _localStorage = require("./local-storage");
@@ -3202,7 +3243,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51291" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52101" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
