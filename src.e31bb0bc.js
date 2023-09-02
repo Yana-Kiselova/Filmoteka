@@ -2555,13 +2555,8 @@ function renderWathedList() {
       _refsHeader.refs.emptyMovieList.remove();
     }
     _refsHeader.refs.galery.insertAdjacentHTML('afterend', (0, _emptyWatchedList.default)());
-    // refs.emptyMovieList = document.querySelector('.empty-js');
-    // if (refs.emptyMovieList) {
-    //   refs.emptyMovieList.remove();
-    // }
   }
 }
-
 function renderQueueList() {
   // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
   _refsHeader.refs.buttonHeaderWatched.classList.remove('button-active');
@@ -2589,10 +2584,6 @@ function renderQueueList() {
     }
     _refsHeader.refs.galery.insertAdjacentHTML('afterend', (0, _emptyQueueList.default)());
   }
-  // refs.emptyMovieList = document.querySelector('.empty-js');
-  // if (refs.emptyMovieList) {
-  //   refs.emptyMovieList.remove();
-  // }
 }
 },{"lodash.debounce":"../node_modules/lodash.debounce/index.js","./news-service":"js/news-service.js","../templates/appenFilmMarkup.hbs":"templates/appenFilmMarkup.hbs","../templates/header-home.hbs":"templates/header-home.hbs","../templates/header-library.hbs":"templates/header-library.hbs","../templates/empty-queue-list.hbs":"templates/empty-queue-list.hbs","../templates/empty-watched-list.hbs":"templates/empty-watched-list.hbs","./local-storage":"js/local-storage.js","./io":"js/io.js","./refs-header":"js/refs-header.js"}],"templates/modal.hbs":[function(require,module,exports) {
 "use strict";
@@ -2836,7 +2827,7 @@ refs.galleryList.addEventListener('click', evt => {
 
 /////// открыть модолку при клике на img вешаем класс/////
 function openModalFilm(evt) {
-  if (!evt.target.nodeName === 'IMG') {
+  if (evt.target.nodeName !== 'IMG') {
     return;
   }
   getMovieId(evt);
@@ -3243,7 +3234,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52101" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49851" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
