@@ -8,4 +8,5 @@ export const refs = {
   buttonHeaderWatched: document.querySelector('.button-header-watched-js'),
   buttonHeaderQueue: document.querySelector('.button-header-queue-js'),
   sentinel: document.querySelector('#sentinel'),
+  emptyMovieList: document.querySelector('.empty-js'),
 };

@@ -12,14 +12,15 @@
   }
 }
 
+.gallery .container {
+  margin: 0 auto;
+  padding: 20px 20px 40px 20px;
+}
+
 @media (min-width: 320px) {
   .container {
     width: 320px;
 
-    .gallery & {
-      margin: 0 auto;
-      padding: 20px 20px 40px 20px;
-    }
     .footer & {
       margin: 0 auto;
       padding: 30px 40px 30px 40px;
