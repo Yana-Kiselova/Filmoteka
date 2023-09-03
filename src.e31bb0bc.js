@@ -2333,7 +2333,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const templateFunction = _handlebars.default.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
-    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Queue</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the QUEUE yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='/'>Home</a>\r\n  </div>\r\n</div>";
+    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Queue</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the QUEUE yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='https://yana-kiselova.github.io/Filmoteka/'>Home</a>\r\n  </div>\r\n</div>";
   },
   "useData": true
 });
@@ -2351,7 +2351,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const templateFunction = _handlebars.default.template({
   "compiler": [8, ">= 4.3.0"],
   "main": function (container, depth0, helpers, partials, data) {
-    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Watched</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the WATCHED yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a class='link button button-empty' href='/'>Home</a>\r\n  </div>\r\n</div>";
+    return "<div class='empty-movie-list empty-js'>\r\n  <div class='empty-movie-list-wrapper'>\r\n    <h2 class='empty-movie-list-title'>\r\n      <span class='empty-movie-list-title-par'>Watched</span>\r\n      is empty...\r\n    </h2>\r\n    <p class='empty-movie-list-text'>There's nothing in the WATCHED yet.</p>\r\n    <p class='empty-movie-list-text'>\r\n      Select and add to your library to quickly find your favorite movies!\r\n    </p>\r\n    <a\r\n      class='link button button-empty'\r\n      href='https://yana-kiselova.github.io/Filmoteka/'\r\n    >Home</a>\r\n  </div>\r\n</div>";
   },
   "useData": true
 });
@@ -3234,7 +3234,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49851" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49815" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
