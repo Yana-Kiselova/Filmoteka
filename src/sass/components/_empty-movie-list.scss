@@ -1,0 +1,48 @@
+.empty-movie-list {
+  padding: 30px;
+  width: 100%;
+  text-align: center;
+  background-image: linear-gradient(
+      90deg,
+      rgba(47, 48, 58, 0.4),
+      rgba(47, 48, 58, 0.4)
+    ),
+    url('../images/empty.jpg');
+  background-repeat: round;
+  background-size: cover;
+  &-wrapper {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &-title {
+    margin-bottom: 30px;
+    color: var(--accent-color);
+    font-size: 18px;
+  }
+
+  &-text {
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 14px;
+  }
+}
+
+.empty-movie-list-title-par {
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .empty-movie-list {
+    margin: 0 auto;
+    padding-top: 30px;
+    width: 630px;
+    height: 400px;
+    &-wrapper {
+      width: 350px;
+    }
+    &-text {
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+  }
+}

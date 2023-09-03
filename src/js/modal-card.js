@@ -1,6 +1,7 @@
 import NewApiService from './news-service';
 import templatesModal from '../templates/modal.hbs';
 import { setLocalStorage, getLocalStorage } from './local-storage';
+import { renderQueueList, renderWathedList } from './header';
 
 const apiService = new NewApiService();
 
@@ -13,6 +14,8 @@ const refs = {
   buttonWatched: document.querySelector('.button-watched-js'),
   buttonQueue: document.querySelector('.button-queue-js'),
   body: document.querySelector('.body'),
+  headerButtonQueue: document.querySelector('.button-header-queue-js'),
+  headerButtonWatched: document.querySelector('.button-header-watched-js'),
 };
 
 refs.galleryList.addEventListener('click', evt => {
@@ -21,7 +24,7 @@ refs.galleryList.addEventListener('click', evt => {
 
 /////// открыть модолку при клике на img вешаем класс/////
 function openModalFilm(evt) {
-  if (!evt.target.nodeName === 'IMG') {
+  if (evt.target.nodeName !== 'IMG') {
     return;
   }
   getMovieId(evt);
@@ -107,6 +110,18 @@ function addWatched(evt) {
     if (watched.includes(movieId)) {
       // ======== удаляем фильм из watched в locatStorage, если он уже есть ========
       removeFromLocalStorage('watched', watched, refs.buttonWatched);
+      refs.headerButtonQueue = document.querySelector(
+        '.button-header-queue-js'
+      );
+      if (refs.headerButtonQueue) {
+        if (refs.headerButtonQueue.classList.contains('button-active')) {
+          //TODO: Обновляем гарелерею из либрари Queue
+          renderQueueList();
+        } else {
+          //TODO: Обновляем гарелерею из либрари Watched
+          renderWathedList();
+        }
+      }
       return;
     }
     // ======== добавляем фильм в watched в localStorage ========
@@ -120,6 +135,16 @@ function addWatched(evt) {
   }
   // ======== удаляем фильм в Queue из localStorage, если такой фильм есть ========
   removeFromQueue();
+  refs.headerButtonQueue = document.querySelector('.button-header-queue-js');
+  if (refs.headerButtonQueue) {
+    if (refs.headerButtonQueue.classList.contains('button-active')) {
+      //TODO: Обновляем гарелерею из либрари Queue
+      renderQueueList();
+    } else {
+      //TODO: Обновляем гарелерею из либрари Watched
+      renderWathedList();
+    }
+  }
 }
 
 // ======== при нажатии на buttonQueue добавляем фильмы в queue ========
@@ -127,10 +152,22 @@ function addQueue(evt) {
   evt.preventDefault();
   // ======== получаем список фильмов queue из localStorage или null ========
   const queue = getLocalStorage('queue');
+  refs.headerButtonWatched = document.querySelector(
+    '.button-header-watched-js'
+  );
   if (queue) {
     if (queue.includes(movieId)) {
       // ======== удаляем фильм из queue в locatStorage, если он уже есть ========
       removeFromLocalStorage('queue', queue, refs.buttonQueue);
+      if (refs.headerButtonWatched) {
+        if (refs.headerButtonWatched.classList.contains('button-active')) {
+          //TODO: Обновляем гарелерею из либрари Watched
+          renderWathedList();
+        } else {
+          //TODO: Обновляем гарелерею из либрари Queue
+          renderQueueList();
+        }
+      }
       return;
     }
     // ======== добавляем фильм в queue в localStorage ========
@@ -144,6 +181,15 @@ function addQueue(evt) {
   }
   // ======== удаляем фильм в Watched из localStorage, если такой фильм есть ========
   removeFromWatched();
+  if (refs.headerButtonWatched) {
+    if (refs.headerButtonWatched.classList.contains('button-active')) {
+      //TODO: Обновляем гарелерею из либрари Watched
+      renderWathedList();
+    } else {
+      //TODO: Обновляем гарелерею из либрари Queue
+      renderQueueList();
+    }
+  }
 }
 
 // ======== при нажатии на buttonWatched удаляем фильм в queue ========

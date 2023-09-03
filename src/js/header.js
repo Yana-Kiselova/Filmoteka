@@ -3,6 +3,8 @@ import NewApiService from './news-service';
 import galleryTemplates from '../templates/appenFilmMarkup.hbs';
 import homeTemplate from '../templates/header-home.hbs';
 import libraryTemplate from '../templates/header-library.hbs';
+import emptyQueueList from '../templates/empty-queue-list.hbs';
+import emptyWatchedList from '../templates/empty-watched-list.hbs';
 import { getLocalStorage } from './local-storage';
 import { observer } from './io';
 import { refs } from './refs-header';
@@ -22,6 +24,19 @@ function initializeHeader() {
 // ========= инициализация хедера и запрос популярных =========
 initializeHeader();
 
+function home(evt) {
+  evt.preventDefault();
+  refs.headerContent.innerHTML = '';
+  initializeHeader();
+  refs.header.classList.remove('library');
+  refs.libraryLink.classList.remove('active');
+  refs.homeLink.classList.add('active');
+  refs.galery.innerHTML = '';
+  refs.emptyMovieList = document.querySelector('.empty-js');
+  if (refs.emptyMovieList) {
+    refs.emptyMovieList.remove();
+  }
+}
 /////// рендер популярных фильмов //////
 function fetchTrending() {
   apiService.fetchArticles().then(data => {
@@ -77,19 +92,20 @@ function addLibraryButtonsListeners() {
     '.button-header-watched-js'
   );
   refs.buttonHeaderQueue.classList.add('button-active');
-
   refs.buttonHeaderQueue.addEventListener('click', renderQueueList);
   refs.buttonHeaderWatched.addEventListener('click', renderWathedList);
   refs.galery.innerHTML = '';
   renderQueueList();
 }
 
-function renderWathedList() {
+export function renderWathedList() {
   // 1. Снять класс актив с кнопки Кью и повесить на Вотчед
   refs.buttonHeaderWatched.classList.add('button-active');
   refs.buttonHeaderQueue.classList.remove('button-active');
   // 2. Получить список вотчед из локалсторадж
   const watched = getLocalStorage('watched');
+  refs.emptyMovieList = document.querySelector('.empty-js');
+
   // 3. Сделать иф если вотчед есть делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
   if (watched && watched.length) {
     const movieArr = watched.map(id => {
@@ -99,18 +115,26 @@ function renderWathedList() {
       // 4. Очищащем галлерею и рендерим данные, которые получили с АПИ запроса
       refs.galery.innerHTML = '';
       refs.galery.insertAdjacentHTML('beforeend', galleryTemplates(data));
+      if (refs.emptyMovieList) {
+        refs.emptyMovieList.remove();
+      }
     });
   } else {
-    alert('нет просмотренных фильмов');
+    refs.galery.innerHTML = '';
+    if (refs.emptyMovieList) {
+      refs.emptyMovieList.remove();
+    }
+    refs.galery.insertAdjacentHTML('afterend', emptyWatchedList());
   }
 }
 
-function renderQueueList() {
+export function renderQueueList() {
   // 1. Снять класс актив с кнопки Вотчед и повесить на Кью
   refs.buttonHeaderWatched.classList.remove('button-active');
   refs.buttonHeaderQueue.classList.add('button-active');
   // 2. Получить список кью из локалсторадж
   const queue = getLocalStorage('queue');
+  refs.emptyMovieList = document.querySelector('.empty-js');
   // 3. Сделать иф если кью делаем АПИ запрос по каждому элементу, если нет рендерим заглушку
   if (queue && queue.length) {
     const movieArr = queue.map(id => {
@@ -120,18 +144,15 @@ function renderQueueList() {
     Promise.all(movieArr).then(data => {
       refs.galery.innerHTML = '';
       refs.galery.insertAdjacentHTML('beforeend', galleryTemplates(data));
+      if (refs.emptyMovieList) {
+        refs.emptyMovieList.remove();
+      }
     });
   } else {
-    alert('нет фильмов к просмотру');
+    refs.galery.innerHTML = '';
+    if (refs.emptyMovieList) {
+      refs.emptyMovieList.remove();
+    }
+    refs.galery.insertAdjacentHTML('afterend', emptyQueueList());
   }
-}
-
-function home(evt) {
-  evt.preventDefault();
-  refs.headerContent.innerHTML = '';
-  initializeHeader();
-  refs.header.classList.remove('library');
-  refs.libraryLink.classList.remove('active');
-  refs.homeLink.classList.add('active');
-  refs.galery.innerHTML = '';
 }
